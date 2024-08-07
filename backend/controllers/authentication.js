@@ -33,8 +33,19 @@ const signupPost = async (req, res) => {
 
 }
 
-const loginPost = (req, res) => {
-    res.send("login route")
+const loginPost = async (req, res) => {
+    const { email, password } = req.body
+
+    try {
+        const user = await userModel.login(email, password)
+        const token = createToken(user._id, user.username)
+        res.cookie('jwt', token)
+
+        res.status(200).json(user)
+    }
+    catch (err) {
+        res.status(400).json({ message: "username or password does not exist" })
+    }
 }
 
 module.exports = { loginPost, signupPost }

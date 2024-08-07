@@ -12,6 +12,9 @@ const Register = () => {
         dateofBirth:'',
     });
     const [colleges,setColleges]=useState([]);
+    const [otp,setotp]=useState('');
+    const[otpSent,setOtpSent]=useState('');
+    const[otpVerified,setOtpVerified]=useState(false);
     const {name,email,mobile,username,collegeName,dateofBirth}=formData;
     useEffect(()=>{
       const fetchColleges=async()=>{
@@ -124,7 +127,6 @@ const Register = () => {
           <button type="submit" className="submit-btn">Register</button>
           </form>
         </div>
-
   );
 };
 

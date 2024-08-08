@@ -107,4 +107,37 @@ const updatePost = async (req, res) => {
         res.status(500).json({ message: err.message })
     }
 }
-module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost }
+
+const toggleUpvote = async (req, res) => {
+    const userId = req.userId
+    const postId = req.params.postId
+
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+        res.status(400).json({ message: "Invalid post id format" })
+    }
+
+    try {
+        const fetchedPost = await postModel.findById(postId)
+
+        if (!fetchedPost) {
+            res.status(404).json({ message: "Post not found" })
+        }
+
+        if (fetchedPost.upvotes.includes(userId)) {
+            //remove userId from that upvote array
+            fetchedPost.upvotes = fetchedPost.upvotes.filter(id => !id.equals(userId))
+        }
+        else {
+            fetchedPost.upvotes.push(userId)
+        }
+
+        const updatedPost = await fetchedPost.save()
+        res.status(200).json({ upvotes: updatedPost.upvotes.length, updatedPost })
+
+    }
+    catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+
+}
+module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, toggleUpvote }

@@ -14,6 +14,15 @@ const postSchema = mongoose.Schema({
         ref: 'user',
         required: true
     },
+    upvotes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    category: {
+        type: String,
+        enum: ["Issues", "Academics", "Updates", "Career", "Misc"],
+        default: "Misc"
+    },
     createdAt: {
         type: Date,
         default: Date.now,

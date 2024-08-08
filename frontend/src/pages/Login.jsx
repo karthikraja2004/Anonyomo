@@ -29,7 +29,7 @@ const Login = () => {
         password: '',
     });
       localStorage.setItem('jwt',res.data.token);
-      navigate('/dashboard');
+      navigate('/navigatebar');
     }
      catch (err) {
       toast.error('Login failed:'+(err.response?.data.message|| 'Unknown error'));

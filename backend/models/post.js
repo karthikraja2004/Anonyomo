@@ -16,7 +16,7 @@ const postSchema = mongoose.Schema({
     },
     upvotes: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'user'
     }],
     category: {
         type: String,

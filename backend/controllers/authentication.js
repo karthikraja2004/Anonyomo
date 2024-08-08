@@ -14,9 +14,9 @@ const signupPost = async (req, res) => {
     }
 
     try {
-        const existingUser = await userModel.findOne({email })
+        const existingUser = await userModel.findOne({ email })
         if (existingUser) {
-           return res.status(401).json({message:"User already exists"});
+            return res.status(401).json({ message: "User already exists" });
         }
         const newUser = await userModel.create({
             username, email, password, confirmPassword, name, mobile, collegeName, dob
@@ -38,7 +38,7 @@ const loginPost = async (req, res) => {
     try {
         const user = await userModel.login(email, password)
         const token = createToken(user._id, user.username)
-        res.cookie('jwt', token,{httpOnly:true});
+        res.cookie('jwt', token, { httpOnly: true });
         res.status(200).json(user)
     }
     catch (err) {
@@ -46,4 +46,9 @@ const loginPost = async (req, res) => {
     }
 }
 
-module.exports = { loginPost, signupPost }
+const logoutPost = (req, res) => {
+    res.cookie('jwt', '', { maxAge: 1, httpOnly: true });
+    res.status(200).json({ message: "Logged out successfully" });
+};
+
+module.exports = { loginPost, signupPost, logoutPost }

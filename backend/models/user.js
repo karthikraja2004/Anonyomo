@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-
+const validator=require('validator');
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -11,17 +11,20 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        validate:[validator.isEmail,'Invalid email format']
     },
     password: {
         type: String,
         required: true,
         min: 6,
-    },
+        required:true    },
     name: {
         type: String,
-        require: true
+        require: true,
+        min:6
     },
+    
     mobile: {
         type: String,
         required: true,
@@ -54,13 +57,16 @@ userSchema.pre('save', async function (next) {
 
 userSchema.statics.login = async function (email, password) {
     const user = await this.findOne({ email })
-    console.log(user)
+    
     if (user) {
         const auth = await bcrypt.compare(password, user.password)
-        console.log(auth)
+        
         if (auth) {
+           
             return user
-        } throw Error("Incorrect password")
-    } throw Error("Incorrect email")
+        } 
+        throw Error("Incorrect password")
+    } 
+    throw Error("Incorrect email")
 }
 module.exports = mongoose.model('user', userSchema)

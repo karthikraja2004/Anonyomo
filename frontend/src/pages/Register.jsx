@@ -1,50 +1,60 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios';
+import {toast}from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './auth.css'
 import { useNavigate } from 'react-router-dom';
-import './Register.css';
 const Register = () => {
     const [formData,setFormData]=useState({
         name:'',
         email:'',
+        password:'',
+        confirmPassword:'',
         mobile:'',
         username:'',
         collegeName:'',
-        dateofBirth:'',
+        dob:'',
     });
-    const [colleges,setColleges]=useState([]);
-    const [otp,setotp]=useState('');
-    const[otpSent,setOtpSent]=useState('');
-    const[otpVerified,setOtpVerified]=useState(false);
-    const {name,email,mobile,username,collegeName,dateofBirth}=formData;
-    useEffect(()=>{
-      const fetchColleges=async()=>{
-        try{
-          const res=await axios.get('http://localhost:3000/api/colleges/list');
-          setColleges(res.data);
-        }
-        catch(err)
-        {
-           console.error(err);
-        }
-      };
-      fetchColleges();
-    },[]);
-
+   
+    const {name,email,mobile,password,confirmPassword,username,collegeName,dob}=formData;
+    
     const onChange=e=>setFormData({...formData,[e.target.name]:e.target.value});
 
+    const navigate = useNavigate(); 
     const onSubmit=async e=>{
       e.preventDefault();
-      const body=JSON.stringify({name,email,mobile,username,collegeName,dateofBirth});
-      console.log(body);
+
+      if (password !== confirmPassword) {
+        toast.error('Passwords do not match');
+        return;
+    }
+
       try{
-        const res=await axios.post('http://localhost:3000/register',body);
-        console.log(res.data);
+        const config = { headers: { 'Content-Type': 'application/json' }, withCredentials: true };
+      const body=JSON.stringify({name,email,mobile,password,confirmPassword,username,collegeName,dob});
+      const res=await axios.post('http://localhost:5500/api/signup',body,config);
+      toast.success('User registered Successfully!');
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        mobile: '',
+        username: '',
+        collegeName: '',
+        dob: '',
+    });
+     
+      console.log('User registered:',res.data);
+      navigate('/login');
       }
       catch(err){
-        console.error(err.response.data);
+        toast.error('Registration failed: ' + (err.response?.data.message || 'Unknown error'));
+        console.error('Registration error:', err.response.data);
       } 
     };
-    
+   
+
   return (
     <div className="register-container">
       <h2>Register</h2>
@@ -86,6 +96,30 @@ const Register = () => {
           />
         </div>
         <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={onChange}
+            required
+            placeholder="Enter the password"
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={confirmPassword}
+            onChange={onChange}
+            required
+            placeholder="confirm Password"
+          />
+        </div>
+        <div className="form-group">
           <label htmlFor="username">Username:</label>
           <input
             type="text"
@@ -108,18 +142,16 @@ const Register = () => {
           >
             <option value="" disabled>Select your college</option>
             <option value="saveetha">Saveetha</option>
-            {colleges.map((college,index)=>(
-              <option key={index} value={college}>{college}</option>
-            ))}
+            
           </select>
         </div>
         <div className="form-group">
           <label htmlFor="dateofBirth">Date of Birth:</label>
           <input
             type="date"
-            id="dateofBirth"
-            name="dateofBirth"
-            value={dateofBirth}
+            id="dob"
+            name="dob"
+            value={dob}
             onChange={onChange}
             required
           />

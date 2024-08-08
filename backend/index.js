@@ -7,9 +7,13 @@ const cors = require('cors')
 
 require('dotenv').config()
 
+const corsOptions = {
+    origin: 'http://localhost:5173', // Specify your frontend origin here
+    credentials: true,
+  };
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors())
+app.use(cors(corsOptions));
 
 const authenticationRoute = require('./routes/authentication')
 const { checkUser } = require('./middleware/authMiddleware')
@@ -19,7 +23,7 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         console.log("Connection successful")
     })
-    .catch((err) => console.log("database connection failed"))
+    .catch((err) => console.log("database connection failed",err))
 
 
 app.get('/', (req, res) => {
@@ -27,11 +31,11 @@ app.get('/', (req, res) => {
 })
 
 // Protected route
-app.get('/api/v1/profile', checkUser, (req, res) => {
+app.get('/api/profile', checkUser, (req, res) => {
     res.send(`Welcome to Profile \n ${req.token.username}`)
 })
 
 
-app.use('/api/v1/auth', authenticationRoute)
+app.use('/api', authenticationRoute)
 
 app.listen(PORT, () => console.log(`server started at http://127.0.0.1:${PORT}`))

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Login.css';
-
+import './auth.css'
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useNavigate} from 'react-router-dom';
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -12,14 +14,26 @@ const Login = () => {
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const navigate=useNavigate();
   const onSubmit = async e => {
     e.preventDefault();
-    const body = JSON.stringify({ email, password });
+    
     try {
-      const res = await axios.post('', body);
-      console.log(res.data);
-    } catch (err) {
-      console.error(err.response.data);
+      const config = { headers: { 'Content-Type': 'application/json' }, withCredentials: true };
+      const body = JSON.stringify({ email, password });
+      const res = await axios.post('http://localhost:5500/api/login', body,config);
+      toast.success('User logged in successfully!');
+      console.log('User logged in:', res.data);
+      setFormData({
+        email: '',
+        password: '',
+    });
+      localStorage.setItem('jwt',res.data.token);
+      navigate('/dashboard');
+    }
+     catch (err) {
+      toast.error('Login failed:'+(err.response?.data.message|| 'Unknown error'));
+      console.error('Login error:', err.response.data);
     }
   };
 

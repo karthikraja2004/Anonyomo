@@ -7,24 +7,24 @@ const createToken = (id, username) => {
     })
 }
 const signupPost = async (req, res) => {
-    const newUser = req.body
-    console.log(newUser)
+    const { username, email, password, confirmPassword, name, mobile, collegeName, dob } = req.body;
+    console.log(username);
+    if (password !== confirmPassword) {
+        return res.status(400).json({ message: "Passwords do not match" });
+    }
 
     try {
-        const existingUser = await userModel.findOne({ username: newUser.username })
+        const existingUser = await userModel.findOne({email })
         if (existingUser) {
-            res.status(401).send("User already Exists")
+           return res.status(401).json({message:"User already exists"});
         }
+        const newUser = await userModel.create({
+            username, email, password, confirmPassword, name, mobile, collegeName, dob
+        });
+        const token = createToken(newUser._id, newUser.username);
+        res.cookie('jwt', token);
 
-        const user = await userModel.create(newUser)
-        console.log(user)
-
-        const token = createToken(user._id, user.username)
-        res.cookie('jwt', token)
-
-        console.log(`token generated ${token}`)
-        res.status(201).json(user)
-
+        res.status(201).json(newUser);
     }
     catch (err) {
         console.log(err)
@@ -34,13 +34,11 @@ const signupPost = async (req, res) => {
 }
 
 const loginPost = async (req, res) => {
-    const { email, password } = req.body
-
+    const { email, password } = req.body;
     try {
         const user = await userModel.login(email, password)
         const token = createToken(user._id, user.username)
-        res.cookie('jwt', token)
-
+        res.cookie('jwt', token,{httpOnly:true});
         res.status(200).json(user)
     }
     catch (err) {

@@ -1,0 +1,44 @@
+/* src/components/Dashboard.css */
+
+.dashboard-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-section {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.profile-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.profile-button:hover {
+    background-color: #0056b3;
+}
+
+.dashboard-heading {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.loading {
+    text-align: center;
+    font-size: 1.5rem;
+    color: #666;
+}

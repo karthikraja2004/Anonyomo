@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const PORT = 5500
-
+const userModel = require('./models/user')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
@@ -31,8 +31,19 @@ app.get('/', (req, res) => {
 })
 
 // Protected route
-app.get('/api/profile', checkUser, (req, res) => {
-    res.send(`Welcome to Profile \n ${req.token.username}`)
+app.get('/api/profile', checkUser, async(req, res) => {
+   try{
+    const user = await userModel.findById(req.userId).select('-password'); // Exclude the password from the response
+    
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json(user);
+   }
+   catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+}
 })
 
 

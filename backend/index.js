@@ -27,10 +27,10 @@ app.get('/', (req, res) => {
 })
 
 // auth route
-app.use('/api/v1/auth', authenticationRoute)
+app.use('/api/auth', authenticationRoute)
 
 // Protected route
-app.get('/api/v1/profile', checkUser, (req, res) => {
+app.get('/api/profile', checkUser, (req, res) => {
     res.send(`Welcome to Profile \n ${req.token.username}`)
 })
 

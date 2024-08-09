@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Feed from './components/Feed/Feed';
 import Profile from './pages/Profile/Profile';
+import CreatePost from './components/CreatePost/CreatePost';
 
 const App = () => {
   const isAuthenticated = true; // replace with your actual authentication check logic
@@ -19,12 +20,22 @@ const App = () => {
           <Route path="/" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          {isAuthenticated && (
-            <>
-              <Route path="/feed" element={<><Navbar /><Feed /></>} />
-              <Route path="/profile" element={<Profile/>} />
-            </>
-          )}
+          <Route
+            path="/feed"
+            element={
+              isAuthenticated ? (
+                <>
+                  <Feed />
+                  <div className="create-post-container">
+                    <CreatePost />
+                  </div>
+                </>
+              ) : (
+                <Login />
+              )
+            }
+          />
+
         </Routes>
       </div>
       <ToastContainer

@@ -40,7 +40,6 @@ app.use('/api/auth', authenticationRoute)
 app.use('/api/profile', checkUser, profileRoute)
 app.use('/api/posts', checkUser, postRoute)
 
-
 app.use('/api', authenticationRoute)
 
 app.listen(PORT, () => console.log(`server started at http://127.0.0.1:${PORT}`))

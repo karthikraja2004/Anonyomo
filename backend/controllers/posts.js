@@ -108,36 +108,63 @@ const updatePost = async (req, res) => {
     }
 }
 
-const toggleUpvote = async (req, res) => {
-    const userId = req.userId
+const getByPostId = async (req, res) => {
     const postId = req.params.postId
-
     if (!mongoose.Types.ObjectId.isValid(postId)) {
-        res.status(400).json({ message: "Invalid post id format" })
+        return res.status(400).json({ message: "Invalid postId format" });
     }
 
     try {
         const fetchedPost = await postModel.findById(postId)
-
-        if (!fetchedPost) {
-            res.status(404).json({ message: "Post not found" })
-        }
-
-        if (fetchedPost.upvotes.includes(userId)) {
-            //remove userId from that upvote array
-            fetchedPost.upvotes = fetchedPost.upvotes.filter(id => !id.equals(userId))
-        }
-        else {
-            fetchedPost.upvotes.push(userId)
-        }
-
-        const updatedPost = await fetchedPost.save()
-        res.status(200).json({ upvotes: updatedPost.upvotes.length, updatedPost })
-
+        if (fetchedPost) res.status(200).json(fetchedPost)
+        else res.status(404).json({ message: "Invalid post " })
     }
     catch (err) {
         res.status(500).json({ message: err.message })
     }
 
+
 }
-module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, toggleUpvote }
+
+const toggleVote = (voteType) => {
+
+    return async (req, res) => {
+        const userId = req.userId
+        const postId = req.params.postId
+
+        if (!mongoose.Types.ObjectId.isValid(postId)) {
+            res.status(400).json({ message: "Invalid post id format" })
+        }
+        try {
+            const fetchedPost = await postModel.findById(postId)
+
+            if (!fetchedPost) {
+                res.status(404).json({ message: "Post not found" })
+            }
+            const userVoteIndex = fetchedPost[voteType].indexOf(userId);
+
+            if (userVoteIndex !== -1) {
+                // User has already voted, remove the vote
+                fetchedPost[voteType].splice(userVoteIndex, 1);
+            } else {
+                // User has not voted yet, add the vote
+                fetchedPost[voteType].push(userId);
+            }
+
+            const updatedPost = await fetchedPost.save();
+            return res.status(200).json({
+                [voteType]: updatedPost[voteType].length,
+                updatedPost
+            });
+        }
+        catch (err) {
+            return res.status(500).json({ message: err.message });
+        }
+
+    }
+}
+
+const toggleUpvote = toggleVote('upvotes');
+const toggleDownvote = toggleVote('downvotes');
+
+module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getByPostId, toggleUpvote, toggleDownvote }

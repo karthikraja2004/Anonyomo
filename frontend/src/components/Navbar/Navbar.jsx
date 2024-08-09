@@ -1,7 +1,7 @@
 // src/components/Navbar.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import LogoutButton from './LogoutButton';
+import LogoutButton from '../Logout/LogoutButton';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -13,7 +13,7 @@ const Navbar = () => {
 
     return (
         <div className="navbar-container">
-            <h1 className="navbar-title">My Application</h1>
+            <h1 className="navbar-title">Anonymo</h1>
             <div className="navbar-buttons">
                 <button onClick={handleProfileClick} className="navbar-button profile-button">
                     Profile

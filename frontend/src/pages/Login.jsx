@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './auth.css'
-import {toast} from 'react-toastify';
+import './auth.css';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../services/useAuth';
+
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
@@ -11,29 +13,36 @@ const Login = () => {
   });
 
   const { email, password } = formData;
+  const { login } = useAuth();  // Access login function from the useAuth hook
+  const navigate = useNavigate();
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const navigate=useNavigate();
   const onSubmit = async e => {
     e.preventDefault();
-    
+
     try {
       const config = { headers: { 'Content-Type': 'application/json' }, withCredentials: true };
       const body = JSON.stringify({ email, password });
-      const res = await axios.post('http://localhost:5500/api/login', body,config);
+      const res = await axios.post('http://localhost:5500/api/login', body, config);
+
       toast.success('User logged in successfully!');
-      console.log('User logged in:', res.data);
+
+      localStorage.setItem('jwt', res.data.token);
+
+      login(res.data.token);
+
+      navigate('/feed');
+
       setFormData({
         email: '',
         password: '',
-    });
-      localStorage.setItem('jwt',res.data.token);
-      navigate('/navigatebar');
-    }
-     catch (err) {
-      toast.error('Login failed:'+(err.response?.data.message|| 'Unknown error'));
-      console.error('Login error:', err.response.data);
+      });
+    } 
+    
+    catch (err) {
+      toast.error('Login failed: ' + (err.response?.data.message || 'Unknown error'));
+      console.error('Login error:', err.response?.data);
     }
   };
 

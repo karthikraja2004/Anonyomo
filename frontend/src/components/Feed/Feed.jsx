@@ -9,7 +9,7 @@ const Feed = () => {
 
        
         try{
-            const res=await axios.get('http://localhost:5500/api/posts/getallposts', { withCredentials: true });
+            const res=await axios.get('http://localhost:5500/api/posts/', { withCredentials: true });
             setPosts(res.data);
         }
         catch (err) {

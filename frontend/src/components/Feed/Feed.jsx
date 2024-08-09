@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown'
 import CreatePost from '../CreatePost/CreatePost';
 import MarkdownPost from '../MarkdownPost/MarkdownPost';
+import { BiUpvote,BiSolidUpvote } from "react-icons/bi";
 import './Feed.css';
 
 const Feed = () => {
@@ -13,7 +14,7 @@ const Feed = () => {
     const [mdPosts, setMdPosts] = useState([])
 
     const addMdPost = (newPost) => {
-        setMdPost([newPost,...mdPosts])
+        setMdPosts([newPost,...mdPosts])
     }
 
     return (
@@ -28,7 +29,23 @@ const Feed = () => {
                     </div>
                 ))}
             </div>
+
+            <h2>Optional Markdown Post  </h2>
             <MarkdownPost addMdPost={addMdPost} />
+            <div className="md-posts-list">
+                {mdPosts.map( (post,index) => (
+                    <div key={index} className="post-item">
+                    <h3>{post.title}</h3>
+                    <hr></hr>
+                    <strong>Category</strong> <i>{post.category}</i>
+                    <ReactMarkdown>{post.markdown}</ReactMarkdown>
+                    {/* add upvote toggle feature */}
+                </div>
+                )
+                    
+                )}
+            
+            </div>
             
 
         </div>

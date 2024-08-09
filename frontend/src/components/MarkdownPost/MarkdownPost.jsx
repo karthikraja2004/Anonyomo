@@ -8,11 +8,11 @@ function MarkdownPost({addMdPost}) {
 
     const handleSubmit = (e) =>{
         e.preventDefault()
-        if (!title && !markdown && !category) 
+        if (!title && !markdown) 
             return;
         const newPost = {title, markdown, category };
         addMdPost(newPost);
-        setText('');
+        setTitle('');
         setMarkdown('');
         setCategory("Misc")
     }
@@ -24,7 +24,7 @@ function MarkdownPost({addMdPost}) {
             <textarea name='content' value={markdown} onChange={e => setMarkdown(e.target.value)}
             placeholder='feed me' >                
             </textarea>
-            <select name="category" id="category" value={category} onChange={e => setCategory(e.target.value)} id="category">
+            <select name="category" id="category" value={category} onChange={e => setCategory(e.target.value)}>
                 <option value="Misc">Misc</option>
                 <option value="Issues">Issues</option>
                 <option value="Academics">Academics</option>

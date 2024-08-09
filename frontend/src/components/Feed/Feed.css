@@ -20,3 +20,16 @@
     border-radius: 5px;
     margin-top: 10px;
 }
+
+/* for markdown post css */
+.post-item {
+    padding: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+.md-posts-list .post-item {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}

@@ -17,7 +17,9 @@ app.use(cors(corsOptions));
 
 const authenticationRoute = require('./routes/authentication')
 const profileRoute = require('./routes/profile')
+const postRoute = require('./routes/posts')
 const { checkUser } = require('./middleware/authMiddleware')
+
 
 const mongoose = require('mongoose')
 mongoose.connect(process.env.MONGO_URI)
@@ -36,6 +38,7 @@ app.use('/api/auth', authenticationRoute)
 
 // Protected route
 app.use('/api/profile', checkUser, profileRoute)
+app.use('/api/posts', checkUser, postRoute)
 
 
 app.use('/api', authenticationRoute)

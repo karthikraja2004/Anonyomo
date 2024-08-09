@@ -115,7 +115,7 @@ const getByPostId = async (req, res) => {
     }
 
     try {
-        const fetchedPost = await postModel.findById(postId)
+        const fetchedPost = await postModel.findById(postId).populate('author', 'username').populate('comments.commentor', 'username');
         if (fetchedPost) res.status(200).json(fetchedPost)
         else res.status(404).json({ message: "Invalid post " })
     }

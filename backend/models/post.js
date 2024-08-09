@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const postSchema = mongoose.Schema({
+const postSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -31,9 +31,9 @@ const postSchema = mongoose.Schema({
         default: "Misc"
     },
     comments: [{
-        commenter: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+        commentor: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
         text: { type: String },
-        createdAt: { type: Date, default: Date.now() }
+        createdAt: { type: Date, default: Date.now }
     }],
     createdAt: {
         type: Date,

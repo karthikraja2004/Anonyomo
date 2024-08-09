@@ -1,0 +1,43 @@
+.create-post {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.create-post textarea {
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+.create-post input[type="file"] {
+    margin-bottom: 10px;
+}
+
+.create-post button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.create-post button:hover {
+    background-color: #0056b3;
+}
+
+.create-post textarea {
+    width: 100%;
+    height: 150px;
+    /* Increased height for better markdown input */
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}

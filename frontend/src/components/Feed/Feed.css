@@ -1,22 +1,22 @@
+/* Feed.css */
 .feed-container {
-    margin-top: 20px;
-    padding: 10px;
-}
-
-.posts-list {
-    margin-top: 20px;
-}
-
-.post-item {
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 15px;
-}
-
-.post-item img {
-    max-width: 100%;
-    border-radius: 5px;
-    margin-top: 10px;
-}
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .post-card {
+    background: #f9f9f9;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .post-card h3 {
+    margin: 0 0 1rem;
+  }
+  
+  .post-card p {
+    margin: 0 0 1rem;
+  }
+  

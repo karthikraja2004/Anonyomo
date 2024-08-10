@@ -127,22 +127,21 @@ const getByPostId = async (req, res) => {
 }
 
 const toggleVote = (voteType) => {
-
+    console.log(voteType);
     return async (req, res) => {
-        const userId = req.userId
-        const postId = req.params.postId
-
+        const userId = req.userId;
+        const postId = req.params.postId;
         if (!mongoose.Types.ObjectId.isValid(postId)) {
             res.status(400).json({ message: "Invalid post id format" })
         }
         try {
             const fetchedPost = await postModel.findById(postId)
-
+            console.log(fetchedPost);
             if (!fetchedPost) {
                 res.status(404).json({ message: "Post not found" })
             }
             const userVoteIndex = fetchedPost[voteType].indexOf(userId);
-
+            console.log(userVoteIndex);
             if (userVoteIndex !== -1) {
                 // User has already voted, remove the vote
                 fetchedPost[voteType].splice(userVoteIndex, 1);
@@ -152,6 +151,7 @@ const toggleVote = (voteType) => {
             }
 
             const updatedPost = await fetchedPost.save();
+            console.log(updatedPost);
             return res.status(200).json({
                 [voteType]: updatedPost[voteType].length,
                 updatedPost
@@ -163,8 +163,34 @@ const toggleVote = (voteType) => {
 
     }
 }
+const getUserVote=async(req,res)=>{
+    const userId=req.userId;
+    const postId=req.params.postId;
+    if (!mongoose.Types.ObjectId.isValid(postId)) {
+        return res.status(400).json({ message: "Invalid post ID format" });
+    }
+    try {
+        const post = await postModel.findById(postId);
 
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        let voteType = null;
+
+        if (post.upvotes.includes(userId)) {
+            voteType = 'upvote';
+        } else if (post.downvotes.includes(userId)) {
+            voteType = 'downvote';
+        }
+
+        return res.status(200).json({ voteType });
+    } 
+    catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
 const toggleUpvote = toggleVote('upvotes');
 const toggleDownvote = toggleVote('downvotes');
 
-module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getByPostId, toggleUpvote, toggleDownvote }
+module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getByPostId, toggleUpvote, toggleDownvote,getUserVote}

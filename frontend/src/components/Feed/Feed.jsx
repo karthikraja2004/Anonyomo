@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react';
 import './Feed.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Vote from '../Vote/Vote';
 const Feed = () => {
     const [posts, setPosts] = useState([]);
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ const Feed = () => {
     return (
         <div className="feed-container">
             <h2>Posts Feed</h2>
-            <div className="posts-list">
+            <div className="posts-card">
                 {posts.length === 0 ? (
                     <p>No posts available</p>
                 ) : (
@@ -38,6 +39,11 @@ const Feed = () => {
                             <small>By: {post.author.username}</small>
                             <br />
                             <small>Posted on: {new Date(post.createdAt).toLocaleDateString()}</small>
+                            <Vote
+                            postId={post._id}
+                            initialUpvotes={post.upvotes.length}
+                            initialDownvotes={post.downvotes.length}
+                            />
                         </div>
                     ))
                 )}

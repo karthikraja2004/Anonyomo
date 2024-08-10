@@ -140,6 +140,16 @@ const toggleVote = (voteType) => {
             if (!fetchedPost) {
                 res.status(404).json({ message: "Post not found" })
             }
+
+            const oppositeVoteType = voteType === 'upvotes' ? 'downvotes' : 'upvotes'
+
+            fetchedPost[voteType] = fetchedPost[voteType] || [];
+            fetchedPost[oppositeVoteType] = fetchedPost[oppositeVoteType] || [];
+            const oppositeVoteIndex = fetchedPost[oppositeVoteType].indexOf(userId)
+            if (oppositeVoteIndex !== -1) {
+                fetchedPost[oppositeVoteType].splice(oppositeVoteIndex, 1);
+            }
+
             const userVoteIndex = fetchedPost[voteType].indexOf(userId);
             console.log(userVoteIndex);
             if (userVoteIndex !== -1) {
@@ -154,6 +164,7 @@ const toggleVote = (voteType) => {
             console.log(updatedPost);
             return res.status(200).json({
                 [voteType]: updatedPost[voteType].length,
+                [oppositeVoteType]: updatedPost[oppositeVoteType].length,
                 updatedPost
             });
         }
@@ -163,9 +174,9 @@ const toggleVote = (voteType) => {
 
     }
 }
-const getUserVote=async(req,res)=>{
-    const userId=req.userId;
-    const postId=req.params.postId;
+const getUserVote = async (req, res) => {
+    const userId = req.userId;
+    const postId = req.params.postId;
     if (!mongoose.Types.ObjectId.isValid(postId)) {
         return res.status(400).json({ message: "Invalid post ID format" });
     }
@@ -185,7 +196,7 @@ const getUserVote=async(req,res)=>{
         }
 
         return res.status(200).json({ voteType });
-    } 
+    }
     catch (err) {
         return res.status(500).json({ message: err.message });
     }
@@ -193,4 +204,4 @@ const getUserVote=async(req,res)=>{
 const toggleUpvote = toggleVote('upvotes');
 const toggleDownvote = toggleVote('downvotes');
 
-module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getByPostId, toggleUpvote, toggleDownvote,getUserVote}
+module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getByPostId, toggleUpvote, toggleDownvote, getUserVote }

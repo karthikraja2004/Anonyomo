@@ -153,8 +153,7 @@ const toggleVote = (voteType) => {
             const updatedPost = await fetchedPost.save();
             console.log(updatedPost);
             return res.status(200).json({
-                [voteType]: updatedPost[voteType].length,
-                updatedPost
+                [voteType]: updatedPost[voteType].length,updatedPost
             });
         }
         catch (err) {

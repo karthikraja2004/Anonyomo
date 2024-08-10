@@ -25,7 +25,7 @@ const CreatePost = () => {
         try{
             const config = { headers: { 'Content-Type': 'application/json' }, withCredentials: true };
             const body = JSON.stringify({ title, content, category });
-            const res = await axios.post('http://localhost:5500/api/posts/addpost', body, config);
+            const res = await axios.post('http://localhost:5500/api/posts/', body, config);
             toast.success('Post created successfully!');
             console.log('Post created:', res.data);
 

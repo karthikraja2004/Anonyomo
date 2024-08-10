@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const postSchema = mongoose.Schema({
+const postSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true
@@ -18,11 +18,23 @@ const postSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user'
     }],
+    downvotes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'user'
+        }
+
+    ],
     category: {
         type: String,
         enum: ["Issues", "Academics", "Updates", "Career", "Misc"],
         default: "Misc"
     },
+    comments: [{
+        commentor: { type: mongoose.Schema.Types.ObjectId, ref: 'user' },
+        text: { type: String },
+        createdAt: { type: Date, default: Date.now }
+    }],
     createdAt: {
         type: Date,
         default: Date.now,

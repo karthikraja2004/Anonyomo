@@ -1,14 +1,20 @@
 const router = require('express').Router()
 
-const { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, toggleUpvote } = require('../controllers/posts')
-router.get('/getallposts', getAllPosts)
-router.post('/addpost', addPost)
-router.get('/:userId', getAllPostsByUserId)
+const { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getByPostId, toggleUpvote, toggleDownvote } = require('../controllers/posts')
+const { addComment, deleteComment } = require('../controllers/comments')
+router.get('/', getAllPosts)
+router.post('/', addPost)
+
+router.get('/:postId', getByPostId)
 router.delete('/:postId', deletePost)
 router.patch('/:postId', updatePost)
+
 router.post('/:postId/upvote', toggleUpvote)
+router.post('/:postId/downvote', toggleDownvote)
 
+router.get('/users/:userId', getAllPostsByUserId)
 
-
+router.post('/:postId/addComment', addComment)
+router.delete('/:postId/comments/:commentId', deleteComment)
 
 module.exports = router

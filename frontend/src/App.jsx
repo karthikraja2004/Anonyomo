@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React,{useState} from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Welcome from './pages/Welcome/Welcome';
@@ -9,33 +9,43 @@ import 'react-toastify/dist/ReactToastify.css';
 import Feed from './components/Feed/Feed';
 import Profile from './pages/Profile/Profile';
 import CreatePost from './components/CreatePost/CreatePost';
-
 const App = () => {
-  const isAuthenticated = true; // replace with your actual authentication check logic
 
+  const isAuthenticated = () => !!localStorage.getItem('jwt');
+  
   return (
-    <Router>
+   
+      <Router>
       <div className="App">
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route
-            path="/feed"
-            element={
-              isAuthenticated ? (
+          
+          {isAuthenticated() ? (
+            <>
+              <Route path="/feed" element={
                 <>
+                  <Navbar /> 
                   <Feed />
-                  <div className="create-post-container">
-                    <CreatePost />
-                  </div>
                 </>
-              ) : (
-                <Login />
-              )
-            }
-          />
-
+              } />
+              <Route path="/create-post" element={
+                <>
+                  <Navbar /> 
+                  <CreatePost />
+                </>
+              } />
+             <Route path="/profile" element={
+                <>
+                  <Navbar /> 
+                  <Profile/>
+                </>
+              } />
+            </>
+          ) : (
+            <Route path="*" element={<Navigate to="/login" />} />
+          )}
         </Routes>
       </div>
       <ToastContainer

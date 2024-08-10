@@ -1,13 +1,13 @@
 import React, { useState,useEffect } from 'react';
 import './Feed.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 const Feed = () => {
     const [posts, setPosts] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const fetchPosts=async()=>{
-
-       
         try{
             const res=await axios.get('http://localhost:5500/api/posts/', { withCredentials: true });
             setPosts(res.data);
@@ -19,7 +19,9 @@ const Feed = () => {
     fetchPosts();
     },[]);
 
+    
 
+      
     return (
         <div className="feed-container">
             <h2>Posts Feed</h2>
@@ -40,7 +42,9 @@ const Feed = () => {
                     ))
                 )}
             </div>
+            
         </div>
+        
     );
 };
 

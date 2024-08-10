@@ -1,9 +1,12 @@
-import React, { useState ,useEffect} from 'react';
+import React, { useState } from 'react';
 import './CreatePost.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+useNavigate
 const CreatePost = () => {
+    const navigate=useNavigate();
     const [formData,setFormData]=useState({
         title:'',
         content:'',
@@ -34,6 +37,8 @@ const CreatePost = () => {
                 content: '',
                 category: '',
             });
+            navigate('/feed');
+            
         }catch(err)
         {
             toast.error('Error creating post: ' + (err.response?.data.message || 'Unknown error'));

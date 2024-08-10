@@ -1,0 +1,28 @@
+/* Vote.css */
+.vote-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .vote-item {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .vote-icon {
+    font-size: 1.5rem;
+    color: gray;
+    margin-right: 0.5rem;
+    transition: color 0.2s;
+  }
+  
+  .vote-icon.active {
+    color: blue;
+  }
+  
+  .vote-item span {
+    font-size: 1.2rem;
+  }
+  

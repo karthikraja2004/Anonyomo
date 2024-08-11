@@ -24,10 +24,10 @@ const addComment = async (req, res) => {
             createdAt: Date.now()
         };
         fetchedPost.comments.push(newComment)
-        await fetchedPost.save()
+        const fetchedComment = await fetchedPost.save()
 
-        res.status(201).json({ message: "comment added", comment: newComment })
-        console.log(newComment);
+        res.status(201).json({ message: "comment added", comment: fetchedComment.comments[fetchedComment.comments.length - 1] })
+        console.log(fetchedComment);
 
 
 

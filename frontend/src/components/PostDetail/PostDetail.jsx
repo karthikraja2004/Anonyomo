@@ -1,68 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Vote from '../Vote/Vote';
+import Post from '../Post/Post'; // Ensure you import the Post component
 import './PostDetail.css';
+import axios from 'axios';
 
 const PostDetail = () => {
     const { postId } = useParams();
-    const [post, setPost] = useState({});
+    console.log('Post ID:', postId); // Check the postId value
+    const [post, setPost] = useState(null);
+    const [comment, setComment] = useState("");
     const [comments, setComments] = useState([]);
-    const [newComment, setNewComment] = useState('');
-
+    
     useEffect(() => {
-        const fetchPost=async()=>{
-
-            try{
-                const res=await axios.get(`http://localhost:5500/api/posts/${postId}`,{withCredentials:true});
+        const fetchPost = async () => {
+            try {
+                const res = await axios.get(`http://localhost:5500/api/posts/${postId}`, { withCredentials: true });
+                console.log('Fetched Post:', res.data); // Check the fetched data
                 setPost(res.data);
-                console.log(res.data);
                 setComments(res.data.comments);
+            } catch (err) {
+                console.error('Error fetching post:', err.response?.data || err.message);
             }
-            catch(err)
-            {
-                console.log('Error fetching post:',err.response?.data||err.message);
-            }
-
         };
         fetchPost();
-    },[postId]);
+    }, [postId]);
 
-    const handleCommentSubmit = async (e) => {
-        e.preventDefault();
+    if (!post) {
+        return <p>Loading...</p>; // Or any loading indicator
+    }
+
+    const handleCommentSubmit = async () => {
+        const text = comment;
         try {
-            const res = await axios.post(`http://localhost:5500/api/posts/${postId}/addcomment`, { text: newComment }, { withCredentials: true });
-            setComments([res.data, ...comments]);  // Add the new comment to the top of the list
-            setNewComment('');
+            const res = await axios.post(`http://localhost:5500/api/posts/${postId}/addComment`, { text }, { withCredentials: true });
+            // Add the new comment to the state
+            setComments(prevComments => [res.data.comment, ...prevComments]);
+            setComment(""); // Clear the comment input
         } catch (err) {
-            console.log('Error submitting comment:', err.response?.data || err.message);
+            console.error('Error submitting comment:', err.response?.data || err.message);
         }
     };
-    return(
-        <div className="post-detail-container">
-            <div className="post-detail">
-                <h2>{post.title}</h2>
-                <p>{post.content}</p>
-            </div>
-            <div className="comments-section">
-                <form onSubmit={handleCommentSubmit}>
-                    <textarea
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Add a comment..."
-                        required
-                    />
-                    <button type="submit">Submit</button>
-                </form>
-                <div className="comments-list">
-                    {comments.map((comment) => (
-                        <div key={comment._id} className="comment-item">
-                            <p>{comment.text}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
 
-    )
+    console.log(comment);
+
+    return (
+        <>
+            <h2>{postId}</h2>
+            <Post post={post} />
+            <h4>Comments</h4>
+            <ul>
+                {comments && comments.map(c => (
+                    <li key={c._id}>{c.text}</li>
+                ))} 
+            </ul>
+            <div className="comment-box">
+                <textarea 
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder="Add a comment..."
+                />
+                <button onClick={handleCommentSubmit}>Submit Comment</button>
+            </div>
+        </>
+    );
 };
+
 export default PostDetail;

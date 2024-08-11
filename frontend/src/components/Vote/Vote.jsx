@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 import './Vote.css';
-
+import Post from '../Post/Post';
 const Vote = ({ postId, initialUpvotes, initialDownvotes }) => {
     const [upvotes, setUpvotes] = useState(initialUpvotes);
     const [downvotes, setDownvotes] = useState(initialDownvotes);
@@ -23,6 +23,7 @@ const Vote = ({ postId, initialUpvotes, initialDownvotes }) => {
     const handleVote = async (voteType) => {
         try {
             const res = await axios.post(`http://localhost:5500/api/posts/${postId}/vote/${voteType}`, {}, { withCredentials: true });
+            console.log(res.data);
             if (voteType === 'upvote') {
                 setUpvotes(res.data.upvotes);
                 if (userVote === 'downvote') {

@@ -1,13 +1,9 @@
 import React, { useState,useEffect } from 'react';
 import './Feed.css';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Vote from '../Vote/Vote';
-import ReactMarkdown from 'react-markdown'
+import Post from '../Post/Post';
 const Feed = () => {
     const [posts, setPosts] = useState([]);
-    const navigate = useNavigate();
-
     useEffect(()=>{
         const fetchPosts=async()=>{
         try{
@@ -25,33 +21,11 @@ const Feed = () => {
 
       
     return (
-        <div className="feed-container">
-            <h2>Posts Feed</h2>
-            <div className="posts-card">
-                {posts.length === 0 ? (
-                    <p>No posts available</p>
-                ) : (
-                    posts.map(post => (
-                        <div key={post._id} className="post-item">
-                            <h3>{post.title}</h3>
-                            <p><ReactMarkdown>{post.content}</ReactMarkdown></p>
-                            <small>Category: {post.category}</small>
-                            <br />
-                            <small>By: {post.author.username}</small>
-                            <br />
-                            <small>Posted on: {new Date(post.createdAt).toLocaleDateString()}</small>
-                            <Vote
-                            postId={post._id}
-                            initialUpvotes={post.upvotes.length}
-                            initialDownvotes={post.downvotes.length}
-                            />
-                        </div>
-                    ))
-                )}
-            </div>
-            
-        </div>
-        
+<div className="feed-container">
+            {posts.map((post) => (
+                <Post key={post._id} post={post} />
+            ))}
+        </div>  
     );
 };
 

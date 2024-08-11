@@ -25,4 +25,15 @@
   .vote-item span {
     font-size: 1.2rem;
   }
+  .comment-icon {
+    font-size: 1.5em;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #777777;
+    transition: color 0.3s ease;
+  }
+  
+  .comment-icon:hover {
+    color: #333333;
+  }
   

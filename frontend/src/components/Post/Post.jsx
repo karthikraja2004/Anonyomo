@@ -7,7 +7,6 @@ const Post = ({post}) => {
     <div className="post-card">
     <div className="post-header">
       <h2 className="post-title">{post.title}</h2>
-      {/* Assuming post.author is an object with a username property */}
       <p className="post-author">by {post.author.username}</p>
     </div>
     <div className="post-content">
@@ -19,6 +18,7 @@ const Post = ({post}) => {
         initialUpvotes={post.upvotes.length}
         initialDownvotes={post.downvotes.length}
       />
+      
     </div>
   </div>
   );

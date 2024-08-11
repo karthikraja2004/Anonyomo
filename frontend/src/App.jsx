@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Feed from './components/Feed/Feed';
 import Profile from './pages/Profile/Profile';
 import CreatePost from './components/CreatePost/CreatePost';
+import PostDetail from './components/PostDetail/PostDetail';
 const App = () => {
 
   const isAuthenticated = () => !!localStorage.getItem('jwt');
@@ -42,6 +43,7 @@ const App = () => {
                   <Profile/>
                 </>
               } />
+              <Route path="/posts/:postId" element={<PostDetail />} />
             </>
           ) : (
             <Route path="*" element={<Navigate to="/login" />} />

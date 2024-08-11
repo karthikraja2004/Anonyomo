@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
+import { FaThumbsUp, FaThumbsDown,FaComment } from 'react-icons/fa';
 import './Vote.css';
-import Post from '../Post/Post';
+import { useNavigate } from 'react-router-dom';
 const Vote = ({ postId, initialUpvotes, initialDownvotes }) => {
     const [upvotes, setUpvotes] = useState(initialUpvotes);
     const [downvotes, setDownvotes] = useState(initialDownvotes);
     const [userVote, setUserVote] = useState(null);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchUserVote = async () => {
             try {
@@ -42,6 +42,10 @@ const Vote = ({ postId, initialUpvotes, initialDownvotes }) => {
         }
     };
 
+    const handleCommentClick=()=>{
+        navigate(`/posts/${postId}`);
+    }
+
     return (
         <div className="vote-container">
             <div className="vote-item">
@@ -57,6 +61,9 @@ const Vote = ({ postId, initialUpvotes, initialDownvotes }) => {
                     onClick={() => handleVote('downvote')}
                 />
                 <span>{downvotes >= 0 ? downvotes : 0}</span>
+            </div>
+            <div className="vote-item">
+                <FaComment className="comment-icon" onClick={handleCommentClick}  />
             </div>
         </div>
     );

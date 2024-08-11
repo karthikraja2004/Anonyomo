@@ -27,6 +27,7 @@ const addComment = async (req, res) => {
         await fetchedPost.save()
 
         res.status(201).json({ message: "comment added", comment: newComment })
+        console.log(newComment);
 
 
 

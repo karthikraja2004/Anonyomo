@@ -1,33 +1,70 @@
-.create-post {
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #ccc;
+.create-post-container {
+    background-color: #f7f7f7;
+    /* Light Stone background */
+    padding: 2rem;
     border-radius: 10px;
-    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: auto;
 }
 
-.create-post textarea {
+h2 {
+    color: #003366;
+    /* Dark Aegean for heading */
+    margin-bottom: 1rem;
+}
+
+.create-post-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group textarea {
     width: 100%;
-    height: 60px;
-    padding: 10px;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #333;
 }
 
-.create-post input[type="file"] {
-    margin-bottom: 10px;
+.form-group textarea {
+    height: 150px;
+    /* Adjusted for more content space */
 }
 
-.create-post button {
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #003366;
+    /* Dark Aegean focus state */
+    outline: none;
+}
+
+.submit-btn {
     background-color: #007bff;
+    /* Aegean Blue */
     color: #fff;
-    padding: 10px 15px;
+    padding: 0.75rem 1.5rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
 }
 
-.create-post button:hover {
+.submit-btn:hover {
     background-color: #0056b3;
+    /* Slightly darker Aegean Blue for hover */
 }

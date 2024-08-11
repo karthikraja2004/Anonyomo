@@ -1,3 +1,4 @@
+/* Welcome.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 .home-container {
@@ -6,12 +7,14 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f0f2f5;
+  background-color: #e0e0e0;
+  /* Stone background */
   font-family: 'Poppins', sans-serif;
 }
 
 h1 {
-  color: #007bff;
+  color: #003366;
+  /* Dark Aegean for headings */
   font-size: 3rem;
   margin-bottom: 40px;
 }
@@ -25,7 +28,8 @@ h1 {
 .home-btn {
   text-decoration: none;
   padding: 15px 25px;
-  background-color: #007bff;
+  background-color: #003366;
+  /* Dark Aegean for buttons */
   color: #fff;
   border-radius: 8px;
   font-size: 1.2rem;
@@ -34,5 +38,6 @@ h1 {
 }
 
 .home-btn:hover {
-  background-color: #0056b3;
+  background-color: #001f3f;
+  /* Even darker Aegean for hover */
 }

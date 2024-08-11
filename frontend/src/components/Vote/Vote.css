@@ -1,39 +1,49 @@
-/* Vote.css */
 .vote-container {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .vote-item {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-  }
-  
-  .vote-icon {
-    font-size: 1.5rem;
-    color: gray;
-    margin-right: 0.5rem;
-    transition: color 0.2s;
-  }
-  
-  .vote-icon.active {
-    color: blue;
-  }
-  
-  .vote-item span {
-    font-size: 1.2rem;
-  }
-  .comment-icon {
-    font-size: 1.5em;
-    margin-left: 10px;
-    cursor: pointer;
-    color: #777777;
-    transition: color 0.3s ease;
-  }
-  
-  .comment-icon:hover {
-    color: #333333;
-  }
-  
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background-color: #f7f7f7;
+  /* Light Stone background for contrast */
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.vote-item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #003366;
+  /* Dark Aegean for text and icons */
+}
+
+.vote-icon {
+  font-size: 1.5rem;
+  color: #777;
+  /* Default color for icons */
+  transition: color 0.2s ease;
+}
+
+.vote-icon.active {
+  color: #007bff;
+  /* Aegean Blue for active state */
+}
+
+.vote-item span {
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+  color: #333;
+  /* Darker text color for better readability */
+}
+
+.comment-icon {
+  font-size: 1.5rem;
+  color: #777;
+  /* Default color for comment icon */
+  transition: color 0.3s ease;
+}
+
+.comment-icon:hover {
+  color: #003366;
+  /* Dark Aegean for hover state */
+}

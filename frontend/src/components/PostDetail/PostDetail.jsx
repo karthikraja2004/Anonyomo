@@ -59,7 +59,7 @@ const PostDetail = () => {
 
     return (
         <>
-            <h2>{postId}</h2>
+            
             <Post post={post} />
             <div className="comment-box">
                 <textarea 

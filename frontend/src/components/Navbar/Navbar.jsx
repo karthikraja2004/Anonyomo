@@ -2,6 +2,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import LogoutButton from '../Logout/LogoutButton';
+import { FaPen } from 'react-icons/fa';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -19,6 +20,7 @@ const Navbar = () => {
             <h1 className="navbar-title">Anonymo</h1>
             <div className="navbar-buttons">
                 <button onClick={handleCreatePostClick} className="create-post-button">
+                <FaPen className="create-post-icon" />
                      Create Post
                 </button>
                 <button onClick={handleProfileClick} className="navbar-button profile-button">

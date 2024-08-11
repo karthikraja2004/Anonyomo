@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
-import Vote from '../Vote/Vote';
-import Post from '../Post/Post'; // Ensure you import the Post component
+import { FaTrash } from 'react-icons/fa'
+import Post from '../Post/Post'
 import './PostDetail.css';
 import axios from 'axios';
 
 const PostDetail = () => {
     const { postId } = useParams();
-    console.log('Post ID:', postId); // Check the postId value
     const [post, setPost] = useState(null);
     const [comment, setComment] = useState("");
     const [comments, setComments] = useState([]);
-    
+
     useEffect(() => {
         const fetchPost = async () => {
             try {
                 const res = await axios.get(`http://localhost:5500/api/posts/${postId}`, { withCredentials: true });
-                console.log('Fetched Post:', res.data); // Check the fetched data
                 setPost(res.data);
                 setComments(res.data.comments);
             } catch (err) {
@@ -27,33 +25,42 @@ const PostDetail = () => {
     }, [postId]);
 
     if (!post) {
-        return <p>Loading...</p>; // Or any loading indicator
+        return <p>Loading...</p>
     }
 
     const handleCommentSubmit = async () => {
         const text = comment;
         try {
             const res = await axios.post(`http://localhost:5500/api/posts/${postId}/addComment`, { text }, { withCredentials: true });
-            // Add the new comment to the state
-            setComments(prevComments => [res.data.comment, ...prevComments]);
-            setComment(""); // Clear the comment input
+            setComments(prevComments => [res.data.comment, ...prevComments])
+            setComment("")
         } catch (err) {
-            console.error('Error submitting comment:', err.response?.data || err.message);
+            console.error('Error submitting comment:', err.response?.data || err.message)
         }
-    };
+    }
 
-    console.log(comment);
+    const handleCommentDelete = async (commentId) => {
+        try {
+            await axios.delete(`http://localhost:5500/api/posts/${postId}/comments/${commentId}`, { withCredentials: true })
+            setComments(comments.filter(c => c._id !== commentId))
+        } catch (err) {
+            console.error('Error deleting comment:', err.response?.data || err.message)
+        }
+    }
+
+
+    const formatDate = (date) => {
+        const now = new Date()
+        const commentDate = new Date(date)
+        const diffTime = Math.abs(now - commentDate)
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
+    }
 
     return (
         <>
             <h2>{postId}</h2>
             <Post post={post} />
-            <h4>Comments</h4>
-            <ul>
-                {comments && comments.map(c => (
-                    <li key={c._id}>{c.text}</li>
-                ))} 
-            </ul>
             <div className="comment-box">
                 <textarea 
                     value={comment}
@@ -62,8 +69,28 @@ const PostDetail = () => {
                 />
                 <button onClick={handleCommentSubmit}>Submit Comment</button>
             </div>
+            <section className="comments-section">
+                <h4>Comments</h4>
+                {comments.length > 0 ? (
+                    comments.map(c => (
+                        <div key={c._id} className="comment-card">
+                            <div className="comment-content">
+                                <p className="comment-text">{c.text}</p>
+                                <p className="commentor-username"><strong>{c.commentor.username}</strong></p>
+                                <p className="comment-date">{formatDate(c.createdAt)}</p>
+                            </div>
+                            <button className="delete-comment-button" onClick={() => handleCommentDelete(c._id)}>
+                                <FaTrash />
+                            </button>
+                        </div>
+                    ))
+                ) : (
+                    <p>No comments yet.</p>
+                )}
+            </section>
+            
         </>
-    );
-};
+    )
+}
 
-export default PostDetail;
+export default PostDetail

@@ -52,7 +52,12 @@ const deleteComment = async (req, res) => {
             return res.status(404).json({ message: "post not found" })
         }
 
-        if (fetchedPost.author.toString() !== userId) {
+        const comment = fetchedPost.comments.id(commentId);
+        if (!comment) {
+            return res.status(404).json({ message: "Comment not found" });
+        }
+
+        if (fetchedPost.author.toString() !== userId && comment.commentor.toString() !== userId) {
             return res.status(403).json({ message: "Unauthorized to delete this comment" });
         }
 

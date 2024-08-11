@@ -10,7 +10,7 @@ const Post = ({post}) => {
       <p className="post-author">by {post.author.username}</p>
     </div>
     <div className="post-content">
-      <p>{post.content}</p>
+      <ReactMarkdown>{post.content}</ReactMarkdown>
     </div>
     <div className="post-footer">
       <Vote

@@ -24,10 +24,10 @@ const addComment = async (req, res) => {
             createdAt: Date.now()
         };
         fetchedPost.comments.push(newComment)
-        await fetchedPost.save()
+        const fetchedComment = await fetchedPost.save()
 
-        res.status(201).json({ message: "comment added", comment: newComment })
-        console.log(newComment);
+        res.status(201).json({ message: "comment added", comment: fetchedComment.comments[fetchedComment.comments.length - 1] })
+        console.log(fetchedComment);
 
 
 
@@ -52,7 +52,12 @@ const deleteComment = async (req, res) => {
             return res.status(404).json({ message: "post not found" })
         }
 
-        if (fetchedPost.author.toString() !== userId) {
+        const comment = fetchedPost.comments.id(commentId);
+        if (!comment) {
+            return res.status(404).json({ message: "Comment not found" });
+        }
+
+        if (fetchedPost.author.toString() !== userId && comment.commentor.toString() !== userId) {
             return res.status(403).json({ message: "Unauthorized to delete this comment" });
         }
 

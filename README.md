@@ -9,4 +9,4 @@ Our Vision
 
 Safe Communication: Encourages open dialogue by removing barriers to honest communication.
 Holistic Support: Provides resources and peer support to enhance student well-being and success.
-![image](https://github.com/user-attachments/assets/f73035a9-61d2-49d0-9731-7b5d75b49213)
+

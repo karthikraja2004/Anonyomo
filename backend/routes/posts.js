@@ -15,6 +15,8 @@ router.get('/:postId/vote/user-vote',getUserVote);
 router.get('/users/:userId', getAllPostsByUserId)
 
 router.post('/:postId/addComment', addComment)
-router.delete('/:postId/comments/:commentId', deleteComment)
+router.delete('/:postId/comments/:commentId', deleteComment);
+
+
 
 module.exports = router

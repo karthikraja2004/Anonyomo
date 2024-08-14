@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './CreatePost.css';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -12,9 +12,23 @@ const CreatePost = () => {
         content:'',
         category:'',
     });
+    const[categories,setCategories]=useState([]);
 
     const {title,content,category}=formData;
 
+    useEffect(()=>{
+        const fetchCategories=async()=>{
+            try{
+                const res=await axios.get("http://localhost:5500/api/categories");
+                setCategories(res.data);
+            }catch(err)
+            {
+                toast.error('Error fetching categories');
+                console.error('Fetch categories error:', err.response?.data);
+            }
+        };
+        fetchCategories();
+    },[]);
     const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit=async e=>{
@@ -75,15 +89,18 @@ const CreatePost = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="category">Category:</label>
-                    <input
-                        type="text"
-                        id="category"
-                        name="category"
-                        value={category}
-                        onChange={onChange}
-                        required
-                        placeholder="Enter the post category"
-                    />
+                    <select
+                    id="category"
+                    name="category"
+                    value={category}
+                    onChange={onChange}
+                    required
+                    >
+                        <option value="">Select a category</option>
+                        {categories.map(cat => (
+                            <option key={cat} value={cat}>{cat}</option>
+                        ))}
+                    </select>
                 </div>
                 <button type="submit" className="submit-btn">Create Post</button>
             </form>

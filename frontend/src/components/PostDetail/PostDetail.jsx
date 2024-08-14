@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { FaTrash } from 'react-icons/fa'
-import Post from '../Post/Post'
+import { FaTrash } from 'react-icons/fa';
+import Post from '../Post/Post';
 import './PostDetail.css';
 import axios from 'axios';
 
@@ -25,42 +25,41 @@ const PostDetail = () => {
     }, [postId]);
 
     if (!post) {
-        return <p>Loading...</p>
+        return <p>Loading...</p>;
     }
 
     const handleCommentSubmit = async () => {
         const text = comment;
         try {
             const res = await axios.post(`http://localhost:5500/api/posts/${postId}/addComment`, { text }, { withCredentials: true });
-            setComments(prevComments => [res.data.comment, ...prevComments])
-            setComment("")
+            setComments(prevComments => [res.data.comment, ...prevComments]);
+            setComment("");
         } catch (err) {
-            console.error('Error submitting comment:', err.response?.data || err.message)
+            console.error('Error submitting comment:', err.response?.data || err.message);
         }
-    }
+    };
 
     const handleCommentDelete = async (commentId) => {
         try {
-            await axios.delete(`http://localhost:5500/api/posts/${postId}/comments/${commentId}`, { withCredentials: true })
-            setComments(comments.filter(c => c._id !== commentId))
+            await axios.delete(`http://localhost:5500/api/posts/${postId}/comments/${commentId}`, { withCredentials: true });
+            setComments(comments.filter(c => c._id !== commentId));
         } catch (err) {
-            console.error('Error deleting comment:', err.response?.data || err.message)
+            console.error('Error deleting comment:', err.response?.data || err.message);
         }
-    }
-
+    };
 
     const formatDate = (date) => {
-        const now = new Date()
-        const commentDate = new Date(date)
-        const diffTime = Math.abs(now - commentDate)
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`
-    }
+        const now = new Date();
+        const commentDate = new Date(date);
+        const diffTime = Math.abs(now - commentDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    };
 
     return (
         <>
-            
-            <Post post={post} />
+            {/* Pass comments as a prop to the Post component */}
+            <Post post={post} comments={comments} />
             <div className="comment-box">
                 <textarea 
                     value={comment}
@@ -88,9 +87,8 @@ const PostDetail = () => {
                     <p>No comments yet.</p>
                 )}
             </section>
-            
         </>
-    )
-}
+    );
+};
 
-export default PostDetail
+export default PostDetail;

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FaThumbsUp, FaThumbsDown,FaComment } from 'react-icons/fa';
 import './Vote.css';
 import { useNavigate } from 'react-router-dom';
-const Vote = ({ postId, initialUpvotes, initialDownvotes }) => {
+const Vote = ({ postId, initialUpvotes, initialDownvotes ,commentCount}) => {
     const [upvotes, setUpvotes] = useState(initialUpvotes);
     const [downvotes, setDownvotes] = useState(initialDownvotes);
     const [userVote, setUserVote] = useState(null);
@@ -64,6 +64,7 @@ const Vote = ({ postId, initialUpvotes, initialDownvotes }) => {
             </div>
             <div className="vote-item">
                 <FaComment className="comment-icon" onClick={handleCommentClick}  />
+              
             </div>
         </div>
     );

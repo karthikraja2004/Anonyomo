@@ -5,6 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import './auth.css'
 import { useNavigate } from 'react-router-dom';
 const Register = () => {
+
+  const[colleges,setColleges]=useState([]);
     const [formData,setFormData]=useState({
         name:'',
         email:'',
@@ -15,12 +17,28 @@ const Register = () => {
         collegeName:'',
         dob:'',
     });
-   
+  
+
     const {name,email,mobile,password,confirmPassword,username,collegeName,dob}=formData;
     
     const onChange=e=>setFormData({...formData,[e.target.name]:e.target.value});
 
     const navigate = useNavigate(); 
+
+    useEffect(() => {
+      const fetchColleges = async () => {
+          try {
+              const res = await axios.get('http://localhost:5500/api/collegename');
+              setColleges(res.data);
+          } catch (err) {
+              console.error('Error fetching colleges:', err.response?.data || err.message);
+          }
+      };
+
+      fetchColleges();
+  }, []);
+
+
     const onSubmit=async e=>{
       e.preventDefault();
 
@@ -141,8 +159,11 @@ const Register = () => {
             required          
           >
             <option value="" disabled>Select your college</option>
-            <option value="saveetha">Saveetha</option>
-            
+            {colleges.map((college)=>(
+              <option key={college._id} value={college.name}>
+                {college.name}
+              </option>
+            ))}
           </select>
         </div>
         <div className="form-group">

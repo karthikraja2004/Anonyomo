@@ -17,8 +17,8 @@ const Post = ({post}) => {
         postId={post._id}
         initialUpvotes={post.upvotes.length}
         initialDownvotes={post.downvotes.length}
+        
       />
-      
     </div>
   </div>
   );

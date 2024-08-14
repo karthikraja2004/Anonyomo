@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
     res.send("Backend Route")
 })
 
+
 // auth route
 app.use('/api/auth', authenticationRoute)
 

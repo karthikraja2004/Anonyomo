@@ -1,5 +1,7 @@
 const postModel = require('../models/post')
+const userModel = require('../models/user')
 const mongoose = require('mongoose')
+const collegeNameList = require('../data/CollegeName')
 
 const getAllPosts = async (req, res) => {
 
@@ -120,7 +122,7 @@ const getByPostId = async (req, res) => {
             res.status(200).json(fetchedPost);
             console.log(fetchedPost);
         }
-           
+
         else res.status(404).json({ message: "Invalid post " })
     }
     catch (err) {
@@ -208,4 +210,42 @@ const getUserVote = async (req, res) => {
 const toggleUpvote = toggleVote('upvotes');
 const toggleDownvote = toggleVote('downvotes');
 
-module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getByPostId, toggleUpvote, toggleDownvote, getUserVote }
+
+const getAllPostsByCollege = async (req, res) => {
+    const { college } = req.query
+    if (!college) {
+        return res.status(400).json({ message: "No college name provided" })
+    }
+    const matchedCollege = collegeNameList.find(clg => clg.name === college);
+
+    if (!matchedCollege) {
+        return res.status(400).json({ message: "Not a valid College" });
+    }
+    try {
+        // Find users whose college name matches exactly
+        const users = await userModel.find({ collegeName: college });
+        if (users.length === 0) {
+            return res.status(404).json({ message: 'No users found for this college' });
+        }
+
+        // Get the IDs of the matched users
+        const userIds = users.map(user => user._id);
+
+        // Find posts by these users and populate the author field with the username
+        const posts = await postModel.find({ author: { $in: userIds } }).populate('author', 'username');
+        if (posts.length === 0) {
+            return res.status(200).json([]);  // No posts found
+        }
+
+        // Return the posts found
+        return res.status(200).json(posts);
+    } catch (err) {
+        // Handle any server errors
+        return res.status(500).json({ message: err.message });
+    }
+
+
+
+
+}
+module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getByPostId, toggleUpvote, toggleDownvote, getUserVote, getAllPostsByCollege }

@@ -31,8 +31,8 @@ const addComment = async (req, res) => {
         const populatedComment = populatedPost.comments[populatedPost.comments.length - 1];
 
 
-        res.status(201).json({ message: "Comment added", comment: populatedComment });
-        console.log(fetchedComment + '\n' + populatedComment);
+        return res.status(201).json({ message: "Comment added", comment: populatedComment });
+
 
 
 

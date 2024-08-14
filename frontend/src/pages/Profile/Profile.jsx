@@ -8,6 +8,8 @@ const Profile = () => {
     const [profileData, setProfileData] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const [isAnonymoOn, setIsAnonymoOn] = useState(false);
+
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
@@ -25,6 +27,10 @@ const Profile = () => {
         fetchProfileData();
     }, []);
 
+    const handleToggle = () => {
+        setIsAnonymoOn(!isAnonymoOn);
+    };
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -32,6 +38,13 @@ const Profile = () => {
     return (
         <div className="profile-container">
             <h2>Your Profile</h2>
+            <div className="anonymo-toggle">
+                <h3>Anonymo is {isAnonymoOn ? 'On' : 'Off'}</h3>
+                <label className="switch">
+                    <input type="checkbox" checked={isAnonymoOn} onChange={handleToggle} />
+                    <span className="slider"></span>
+                </label>
+            </div>
             {profileData ? (
                 <div className="profile-info">
                     <p><strong>Name:</strong> {profileData.name}</p>

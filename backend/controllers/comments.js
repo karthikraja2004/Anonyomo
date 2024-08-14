@@ -24,10 +24,15 @@ const addComment = async (req, res) => {
             createdAt: Date.now()
         };
         fetchedPost.comments.push(newComment)
-        const fetchedComment = await fetchedPost.save()
+        await fetchedPost.save()
 
-        res.status(201).json({ message: "comment added", comment: fetchedComment.comments[fetchedComment.comments.length - 1] })
-        console.log(fetchedComment);
+        // comment bug fix, username not displaying when adding comments
+        const populatedPost = await postModel.findById(postId).populate('comments.commentor', 'username');
+        const populatedComment = populatedPost.comments[populatedPost.comments.length - 1];
+
+
+        res.status(201).json({ message: "Comment added", comment: populatedComment });
+        console.log(fetchedComment + '\n' + populatedComment);
 
 
 

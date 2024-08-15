@@ -29,7 +29,8 @@ const analyzeText = async (text) => {
         return result;
     } catch (error) {
         console.error('Error analyzing text:', error.message);
-        return { error: 'Failed to analyze text' };
+        // this is to allow posts when api calls are exceeded or some n/w issues
+        return { tags: [] };
     }
 };
 

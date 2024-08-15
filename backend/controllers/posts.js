@@ -26,6 +26,16 @@ const addPost = async (req, res) => {
         res.status(400).json({ message: "Missing details" })
     }
     try {
+        //using contentFilter
+        const analysisResult = await analyzeText(content)
+        if (analysisResult && analysisResult.tags && analysisResult.tags.length > 0) {
+            return res.status(400).json({
+                message: `Post content contains offensive language: ${analysisResult.tags.join(', ')}`,
+                analysis: analysisResult
+            })
+        }
+
+
         const newpost = await postModel.create({
             title,
             content,

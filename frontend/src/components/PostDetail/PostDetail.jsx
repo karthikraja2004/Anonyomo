@@ -4,6 +4,7 @@ import { FaTrash } from 'react-icons/fa';
 import Post from '../Post/Post';
 import './PostDetail.css';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const PostDetail = () => {
     const { postId } = useParams();
@@ -34,7 +35,15 @@ const PostDetail = () => {
             const res = await axios.post(`http://localhost:5500/api/posts/${postId}/addComment`, { text }, { withCredentials: true });
             setComments(prevComments => [res.data.comment, ...prevComments]);
             setComment("");
+            toast.success('Comment added successfully!');
         } catch (err) {
+            if (err.response && err.response.status === 400 && err.response.data.analysis) {
+                
+                toast.error(`Comment contains offensive language: ${err.response.data.analysis.tags.join(', ')}`);
+            } else {
+            
+                toast.error('Error submitting comment: ' + (err.response?.data.message || 'Unknown error'));
+            }
             console.error('Error submitting comment:', err.response?.data || err.message);
         }
     };

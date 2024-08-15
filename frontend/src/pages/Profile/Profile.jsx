@@ -3,6 +3,7 @@ import axios from 'axios';
 import {toast}from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Profile.css';
+import API_BASE_URL from '../../config';
 
 const Profile = () => {
     const [profileData, setProfileData] = useState(null);

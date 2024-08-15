@@ -6,7 +6,7 @@ import './PostDetail.css';
 import axios from 'axios';
 import {toast}from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import API_BASE_URL from '../../config';
 const PostDetail = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);

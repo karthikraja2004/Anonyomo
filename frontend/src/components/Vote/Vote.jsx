@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FaThumbsUp, FaThumbsDown,FaComment } from 'react-icons/fa';
 import './Vote.css';
 import { useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../../config';
 const Vote = ({ postId, initialUpvotes, initialDownvotes ,commentCount}) => {
     const [upvotes, setUpvotes] = useState(initialUpvotes);
     const [downvotes, setDownvotes] = useState(initialDownvotes);

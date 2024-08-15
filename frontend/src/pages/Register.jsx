@@ -4,7 +4,7 @@ import {toast}from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './auth.css'
 import { useNavigate } from 'react-router-dom';
-
+import API_BASE_URL from '../config';
 const Register = () => {
 
   const[colleges,setColleges]=useState([]);

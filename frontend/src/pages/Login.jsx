@@ -26,7 +26,7 @@ const Login = () => {
       
       
       const body = JSON.stringify({ email, password });
-      const res = await axios.post(`${API_BASE_URL}/api/login`, body, {withCredentials: true});
+      const res = await axios.post(`${API_BASE_URL}/api/login`, body, {withCredentials: true},);
 
       toast.success('User logged in successfully!');
 

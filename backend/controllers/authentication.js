@@ -7,7 +7,7 @@ const createToken = (id, username) => {
     })
 }
 const signupPost = async (req, res) => {
-    const { username, email, password, confirmPassword, name, mobile, collegeName, dob } = req.body;
+    const { username, email, password, confirmPassword, name, mobile, collegeName, dob, isOrganization } = req.body;
     console.log(username);
     if (password !== confirmPassword) {
         return res.status(400).json({ message: "Passwords do not match" });
@@ -19,7 +19,7 @@ const signupPost = async (req, res) => {
             return res.status(401).json({ message: "User already exists" });
         }
         const newUser = await userModel.create({
-            username, email, password, confirmPassword, name, mobile, collegeName, dob
+            username, email, password, confirmPassword, name, mobile, collegeName, dob, isOrganization
         });
         const token = createToken(newUser._id, newUser.username);
         res.cookie('jwt', token);

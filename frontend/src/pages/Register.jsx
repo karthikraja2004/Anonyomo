@@ -6,181 +6,200 @@ import './auth.css'
 import { useNavigate } from 'react-router-dom';
 const Register = () => {
 
-  const[colleges,setColleges]=useState([]);
-    const [formData,setFormData]=useState({
-        name:'',
-        email:'',
-        password:'',
-        confirmPassword:'',
-        mobile:'',
-        username:'',
-        collegeName:'',
-        dob:'',
-    });
-  
+	const[colleges,setColleges]=useState([]);
+		const [formData,setFormData]=useState({
+				name:'',
+				email:'',
+				password:'',
+				confirmPassword:'',
+				mobile:'',
+				username:'',
+				collegeName:'',
+				isOrganization:false,
+				dob:'',
+		});
+	
 
-    const {name,email,mobile,password,confirmPassword,username,collegeName,dob}=formData;
-    
-    const onChange=e=>setFormData({...formData,[e.target.name]:e.target.value});
+		const {name,email,mobile,password,confirmPassword,username,collegeName,dob,isOrganization}=formData;
+		
+		// const onChange=e=>setFormData({...formData,[e.target.name]:e.target.value});
+		const onChange =e => {
+			const {name,value,type, checked}= e.target
+			setFormData({
+				...formData,
+				[name]:type==='checkbox'?checked:value
+			})
+		}
 
-    const navigate = useNavigate(); 
+		const navigate = useNavigate(); 
 
-    useEffect(() => {
-      const fetchColleges = async () => {
-          try {
-              const res = await axios.get('http://localhost:5500/api/collegename');
-              setColleges(res.data);
-          } catch (err) {
-              console.error('Error fetching colleges:', err.response?.data || err.message);
-          }
-      };
+		useEffect(() => {
+			const fetchColleges = async () => {
+					try {
+							const res = await axios.get('http://localhost:5500/api/collegename');
+							setColleges(res.data);
+					} catch (err) {
+							console.error('Error fetching colleges:', err.response?.data || err.message);
+					}
+			};
 
-      fetchColleges();
-  }, []);
+			fetchColleges();
+	}, []);
 
 
-    const onSubmit=async e=>{
-      e.preventDefault();
+		const onSubmit=async e=>{
+			e.preventDefault();
 
-      if (password !== confirmPassword) {
-        toast.error('Passwords do not match');
-        return;
-    }
+			if (password !== confirmPassword) {
+				toast.error('Passwords do not match');
+				return;
+		}
 
-      try{
-        const config = { headers: { 'Content-Type': 'application/json' }, withCredentials: true };
-      const body=JSON.stringify({name,email,mobile,password,confirmPassword,username,collegeName,dob});
-      const res=await axios.post('http://localhost:5500/api/signup',body,config);
-      toast.success('User registered Successfully!');
-      setFormData({
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        mobile: '',
-        username: '',
-        collegeName: '',
-        dob: '',
-    });
-     
-      console.log('User registered:',res.data);
-      navigate('/login');
-      }
-      catch(err){
-        toast.error('Registration failed: ' + (err.response?.data.message || 'Unknown error'));
-        console.error('Registration error:', err.response.data);
-      } 
-    };
-   
+			try{
+				const config = { headers: { 'Content-Type': 'application/json' }, withCredentials: true };
+			const body=JSON.stringify({name,email,mobile,password,confirmPassword,username,collegeName,dob,isOrganization});
+			const res=await axios.post('http://localhost:5500/api/signup',body,config);
+			toast.success('User registered Successfully!');
+			setFormData({
+				name: '',
+				email: '',
+				password: '',
+				confirmPassword: '',
+				mobile: '',
+				username: '',
+				collegeName: '',
+				isOrganization:false,
+				dob: '',
+		});
+		 
+			console.log('User registered:',res.data);
+			navigate('/login');
+			}
+			catch(err){
+				toast.error('Registration failed: ' + (err.response?.data.message || 'Unknown error'));
+				console.error('Registration error:', err.response.data);
+			} 
+		};
+	 
 
-  return (
-    <div className="register-container">
-      <h2>Register</h2>
-      <form onSubmit={onSubmit} className="register-form">
-      <div className="form-group">
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={name}
-            onChange={onChange}
-            required
-            placeholder="Enter your name"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={email}
-            onChange={onChange}
-            required
-            placeholder="Enter your email"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="mobile">Mobile Number:</label>
-          <input
-            type="tel"
-            id="mobile"
-            name="mobile"
-            value={mobile}
-            onChange={onChange}
-            required
-            placeholder="Enter your mobile number"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={onChange}
-            required
-            placeholder="Enter the password"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="confirmPassword">confirm Password:</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={confirmPassword}
-            onChange={onChange}
-            required
-            placeholder="confirm Password"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={username}
-            onChange={onChange}
-            required
-            placeholder="Enter your username"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="collegeName">College Name:</label>
-          <select
-            id="collegeName"
-            name="collegeName"
-            value={collegeName}
-            onChange={onChange}
-            required          
-          >
-            <option value="" disabled>Select your college</option>
-            {colleges.map((college)=>(
-              <option key={college._id} value={college.name}>
-                {college.name}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="dateofBirth">Date of Birth:</label>
-          <input
-            type="date"
-            id="dob"
-            name="dob"
-            value={dob}
-            onChange={onChange}
-            required
-          />
-          </div>
-          <button type="submit" className="submit-btn">Register</button>
-          </form>
-        </div>
-  );
+	return (
+		<div className="register-container">
+			<h2>Register</h2>
+			<form onSubmit={onSubmit} className="register-form">
+			<div className="form-group">
+					<label htmlFor="name">Name:</label>
+					<input
+						type="text"
+						id="name"
+						name="name"
+						value={name}
+						onChange={onChange}
+						required
+						placeholder="Enter your name"
+					/>
+				</div>
+				<div className="form-group">
+					<label htmlFor="email">Email:</label>
+					<input
+						type="email"
+						id="email"
+						name="email"
+						value={email}
+						onChange={onChange}
+						required
+						placeholder="Enter your email"
+					/>
+				</div>
+				<div className="form-group">
+					<label htmlFor="mobile">Mobile Number:</label>
+					<input
+						type="tel"
+						id="mobile"
+						name="mobile"
+						value={mobile}
+						onChange={onChange}
+						required
+						placeholder="Enter your mobile number"
+					/>
+				</div>
+				<div className="form-group">
+					<label htmlFor="password">Password:</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						value={password}
+						onChange={onChange}
+						required
+						placeholder="Enter the password"
+					/>
+				</div>
+				<div className="form-group">
+					<label htmlFor="confirmPassword">confirm Password:</label>
+					<input
+						type="password"
+						id="confirmPassword"
+						name="confirmPassword"
+						value={confirmPassword}
+						onChange={onChange}
+						required
+						placeholder="confirm Password"
+					/>
+				</div>
+				<div className="form-group">
+					<label htmlFor="username">Username:</label>
+					<input
+						type="text"
+						id="username"
+						name="username"
+						value={username}
+						onChange={onChange}
+						required
+						placeholder="Enter your username"
+					/>
+				</div>
+				<div className="form-group">
+					<label htmlFor="collegeName">College Name:</label>
+					<select
+						id="collegeName"
+						name="collegeName"
+						value={collegeName}
+						onChange={onChange}
+						required          
+					>
+						<option value="" disabled>Select your college</option>
+						{colleges.map((college)=>(
+							<option key={college._id} value={college.name}>
+								{college.name}
+							</option>
+						))}
+					</select>
+				</div>
+				<div className="form-group">
+					<label htmlFor="dateofBirth">Date of Birth:</label>
+					<input
+						type="date"
+						id="dob"
+						name="dob"
+						value={dob}
+						onChange={onChange}
+						required
+					/>
+					</div>
+				<div className="form-group">
+						<label htmlFor="isOrganization">Organization:
+							<input 
+								type='checkbox'
+								name="isOrganization"
+								checked={isOrganization}
+								onChange={onChange}
+								/>
+						</label>
+				</div>
+					<button type="submit" className="submit-btn">Register</button>
+					</form>
+				</div>
+	);
 };
 
 export default Register

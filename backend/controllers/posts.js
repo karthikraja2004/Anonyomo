@@ -212,7 +212,8 @@ const toggleDownvote = toggleVote('downvotes');
 
 
 const getAllPostsByCollege = async (req, res) => {
-    const { college } = req.query
+    const college = req.params.collegeName
+    console.log(college);
     if (!college) {
         return res.status(400).json({ message: "No college name provided" })
     }

@@ -43,6 +43,12 @@ const App = () => {
                   <Profile/>
                 </>
               } />
+              <Route path="//feed/:collegeName" element={
+                <>
+                  <Navbar /> 
+                  <Feed/>
+                </>
+              } />
               <Route path="/posts/:postId" element={<PostDetail />} />
             </>
           ) : (

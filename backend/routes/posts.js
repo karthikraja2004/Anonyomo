@@ -4,7 +4,7 @@ const { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getBy
 const { addComment, deleteComment } = require('../controllers/comments')
 router.get('/', getAllPosts)
 router.post('/', addPost)
-router.get('/college', getAllPostsByCollege)
+router.get('/college/:collegeName', getAllPostsByCollege)
 
 router.get('/:postId', getByPostId)
 router.delete('/:postId', deletePost)

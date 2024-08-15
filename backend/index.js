@@ -9,7 +9,7 @@ require('dotenv').config()
 
 const allowedOrigins = [
     'https://anonyomo.vercel.app',
-    'https://anonyomo-c1in-qsoo86mei-karthikraja2004s-projects.vercel.app'
+    'https://anonyomo-c1in.vercel.app/'
 ];
 
 const corsOptions = {

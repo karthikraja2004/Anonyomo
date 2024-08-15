@@ -1,5 +1,7 @@
 const postModel = require('../models/post')
 const mongoose = require('mongoose')
+const analyzeText = require('../middleware/contentFilter')
+
 const addComment = async (req, res) => {
     const postId = req.params.postId
     const userId = req.userId
@@ -13,6 +15,16 @@ const addComment = async (req, res) => {
     }
 
     try {
+
+        //contentFilter - 
+        const analysisResult = await analyzeText(text.trim())
+        if (analysisResult && analysisResult.tags && analysisResult.tags.length > 0) {
+            return res.status(400).json({
+                message: `Comment contains offensive language: ${analysisResult.tags.join(', ')}`,
+                analysis: analysisResult
+            });
+        }
+
         const fetchedPost = await postModel.findById(postId)
         if (!fetchedPost) {
             return res.status(404).json({ message: "post not found" })

@@ -43,15 +43,23 @@ const CreatePost = () => {
             const config = { headers: { 'Content-Type': 'application/json' }, withCredentials: true };
             const body = JSON.stringify({ title, content, category });
             const res = await axios.post('http://localhost:5500/api/posts/', body, config);
-            toast.success('Post created successfully!');
-            console.log('Post created:', res.data);
+            //contentFiltering
+            if (res.data.analysis && res.data.analysis.tags.length > 0) {
+                // If the backend returns tags, indicate the post contains offensive content
+                toast.error(`Post contains offensive content: ${res.data.analysis.tags.join(', ')}`);
+            }
+            else {
+                // If no offensive tags, proceed normally
+                toast.success('Post created successfully!');
+                console.log('Post created:', res.data);
 
-            setFormData({
-                title: '',
-                content: '',
-                category: '',
-            });
-            navigate('/feed');
+                setFormData({
+                    title: '',
+                    content: '',
+                    category: '',
+                });
+                navigate('/feed');
+            }
             
         }catch(err)
         {

@@ -2,6 +2,7 @@ const postModel = require('../models/post')
 const userModel = require('../models/user')
 const mongoose = require('mongoose')
 const collegeNameList = require('../data/CollegeName')
+const analyzeText = require('../middleware/contentFilter')
 
 const getAllPosts = async (req, res) => {
 
@@ -25,6 +26,16 @@ const addPost = async (req, res) => {
         res.status(400).json({ message: "Missing details" })
     }
     try {
+        //using contentFilter
+        const analysisResult = await analyzeText(content)
+        if (analysisResult && analysisResult.tags && analysisResult.tags.length > 0) {
+            return res.status(400).json({
+                message: `Post content contains offensive language: ${analysisResult.tags.join(', ')}`,
+                analysis: analysisResult
+            })
+        }
+
+
         const newpost = await postModel.create({
             title,
             content,
@@ -133,7 +144,7 @@ const getByPostId = async (req, res) => {
 }
 
 const toggleVote = (voteType) => {
-    console.log(voteType);
+    // console.log(voteType);
     return async (req, res) => {
         const userId = req.userId;
         const postId = req.params.postId;
@@ -249,4 +260,16 @@ const getAllPostsByCollege = async (req, res) => {
 
 
 }
-module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getByPostId, toggleUpvote, toggleDownvote, getUserVote, getAllPostsByCollege }
+
+const filterContent = async (req, res) => {
+    try {
+        const { text } = req.params
+        const result = await analyzeText(text)
+        res.json(result)
+
+    }
+    catch (err) {
+        res.json({ message: err.message })
+    }
+}
+module.exports = { getAllPosts, addPost, getAllPostsByUserId, deletePost, updatePost, getByPostId, toggleUpvote, toggleDownvote, getUserVote, getAllPostsByCollege, filterContent }

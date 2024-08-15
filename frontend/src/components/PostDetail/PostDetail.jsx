@@ -4,7 +4,8 @@ import { FaTrash } from 'react-icons/fa';
 import Post from '../Post/Post';
 import './PostDetail.css';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import {toast}from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PostDetail = () => {
     const { postId } = useParams();

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './CreatePost.css';
 import axios from 'axios';
-import { toast } from 'react-toastify';
+import {toast}from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 useNavigate

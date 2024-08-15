@@ -9,9 +9,4 @@ export default defineConfig({
       'react-toastify':'react-toastify',
     }
   },
-  build: {
-    rollupOptions: {
-      external: ['react-toastify'],
-    },
-  },
 });

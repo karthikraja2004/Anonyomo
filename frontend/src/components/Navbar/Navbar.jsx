@@ -16,7 +16,7 @@ const Navbar =() => {
         
         const fetchColleges = async () => {
             try {
-                const res = await axios.get('http://localhost:5500/api/collegename'); 
+                const res = await axios.get(`${API_BASE_URL}/api/collegename`); 
                 setColleges(res.data);
             } catch (err) {
                 console.error('Error fetching colleges:', err.response?.data);

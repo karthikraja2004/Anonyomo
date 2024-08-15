@@ -12,8 +12,8 @@ const Feed = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             const url = collegeName 
-              ? `http://localhost:5500/api/posts/college/${encodeURIComponent(collegeName)}`
-              : "http://localhost:5500/api/posts";
+              ? `${API_BASE_URL}/api/posts/college/${encodeURIComponent(collegeName)}`
+              : `${API_BASE_URL}/api/posts`;
     
             console.log('Fetching from URL:', url);
             

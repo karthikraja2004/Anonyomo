@@ -19,7 +19,7 @@ const CreatePost = () => {
     useEffect(()=>{
         const fetchCategories=async()=>{
             try{
-                const res=await axios.get("http://localhost:5500/api/categories");
+                const res=await axios.get(`${API_BASE_URL}/api/categories`);
                 setCategories(res.data);
             }catch(err)
             {

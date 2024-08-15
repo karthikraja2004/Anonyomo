@@ -11,7 +11,7 @@ const Vote = ({ postId, initialUpvotes, initialDownvotes ,commentCount}) => {
     useEffect(() => {
         const fetchUserVote = async () => {
             try {
-                const res = await axios.get(`http://localhost:5500/api/posts/${postId}/vote/user-vote`, { withCredentials: true });
+                const res = await axios.get(`${API_BASE_URL}/api/posts/${postId}/vote/user-vote`, { withCredentials: true });
                 setUserVote(res.data.voteType);
             } catch (err) {
                 console.log('Error fetching user vote:', err.response?.data || err.message);
@@ -22,7 +22,7 @@ const Vote = ({ postId, initialUpvotes, initialDownvotes ,commentCount}) => {
 
     const handleVote = async (voteType) => {
         try {
-            const res = await axios.post(`http://localhost:5500/api/posts/${postId}/vote/${voteType}`, {}, { withCredentials: true });
+            const res = await axios.post(`${API_BASE_URL}/api/posts/${postId}/vote/${voteType}`, {}, { withCredentials: true });
             console.log(res.data);
             if (voteType === 'upvote') {
                 setUpvotes(res.data.upvotes);

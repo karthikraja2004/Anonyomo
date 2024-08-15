@@ -15,7 +15,7 @@ const PostDetail = () => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const res = await axios.get(`http://localhost:5500/api/posts/${postId}`, { withCredentials: true });
+                const res = await axios.get(`${API_BASE_URL}/api/posts/${postId}`, { withCredentials: true });
                 setPost(res.data);
                 setComments(res.data.comments);
             } catch (err) {
@@ -32,7 +32,7 @@ const PostDetail = () => {
     const handleCommentSubmit = async () => {
         const text = comment;
         try {
-            const res = await axios.post(`http://localhost:5500/api/posts/${postId}/addComment`, { text }, { withCredentials: true });
+            const res = await axios.post(`${API_BASE_URL}/api/posts/${postId}/addComment`, { text }, { withCredentials: true });
             setComments(prevComments => [res.data.comment, ...prevComments]);
             setComment("");
             toast.success('Comment added successfully!');
@@ -50,7 +50,7 @@ const PostDetail = () => {
 
     const handleCommentDelete = async (commentId) => {
         try {
-            await axios.delete(`http://localhost:5500/api/posts/${postId}/comments/${commentId}`, { withCredentials: true });
+            await axios.delete(`${API_BASE_URL}/api/posts/${postId}/comments/${commentId}`, { withCredentials: true });
             setComments(comments.filter(c => c._id !== commentId));
         } catch (err) {
             console.error('Error deleting comment:', err.response?.data || err.message);

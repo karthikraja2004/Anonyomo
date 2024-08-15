@@ -13,7 +13,7 @@ const Profile = () => {
     useEffect(() => {
         const fetchProfileData = async () => {
             try {
-                const res = await axios.get('http://localhost:5500/api/profile', {
+                const res = await axios.get(`${API_BASE_URL}/api/profile`, {
                     withCredentials: true,
                 });
                 setProfileData(res.data);

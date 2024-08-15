@@ -28,7 +28,7 @@ const Register = () => {
     useEffect(() => {
       const fetchColleges = async () => {
           try {
-              const res = await axios.get('http://localhost:5500/api/collegename');
+              const res = await axios.get(`${API_BASE_URL}/api/collegename`);
               setColleges(res.data);
           } catch (err) {
               console.error('Error fetching colleges:', err.response?.data || err.message);
@@ -50,7 +50,7 @@ const Register = () => {
       try{
         const config = { headers: { 'Content-Type': 'application/json' }, withCredentials: true };
       const body=JSON.stringify({name,email,mobile,password,confirmPassword,username,collegeName,dob});
-      const res=await axios.post('http://localhost:5500/api/signup',body,config);
+      const res=await axios.post(`${API_BASE_URL}/api/signup`,body,config);
       toast.success('User registered Successfully!');
       setFormData({
         name: '',

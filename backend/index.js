@@ -11,10 +11,27 @@ require('dotenv').config()
 
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({
-    origin:["https://anonyomo-c1in.vercel.app/"],
-    credentials:true
-}));
+
+const allowedOrigins = [
+    'https://anonyomo.vercel.app',
+    'https://anonyomo-c1in.vercel.app'
+];
+
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,  // Allow cookies and credentials to be sent
+};
+
+app.use(cors(corsOptions));
+
+app.options('*', cors(corsOptions));  // Handle preflight requests
+
 
 const authenticationRoute = require('./routes/authentication')
 const profileRoute = require('./routes/profile')

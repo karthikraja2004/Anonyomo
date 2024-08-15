@@ -23,7 +23,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const config = { headers: { 'Content-Type': 'application/json' }, withCredentials: true };
+      
+      const config = { headers: { 'Content-Type': 'application/json','Authorization': `Bearer ${jwt}`}, withCredentials: true };
       const body = JSON.stringify({ email, password });
       const res = await axios.post(`${API_BASE_URL}/api/login`, body, config);
 

@@ -3,20 +3,62 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    position: relative;
   }
   
-  .post-card {
-    background: #f9f9f9;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .post-card h3 {
-    margin: 0 0 1rem;
-  }
-  
-  .post-card p {
-    margin: 0 0 1rem;
-  }
-  
+.toggle-container {
+    position: absolute; /* Position it absolutely within the feed-container */
+    top: 0px; /* Distance from the top */
+    left: 20px; /* Distance from the right */
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 60px; /* Width of the toggle switch */
+    height: 30px; /* Height of the toggle switch */
+}
+
+.toggle-switch input {
+    opacity: 0; /* Hide the default checkbox */
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc; /* Background color for Off state */
+    transition: .4s; /* Smooth transition */
+    border-radius: 15px; /* Rounded corners */
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 22px; /* Height of the slider knob */
+    width: 22px; /* Width of the slider knob */
+    border-radius: 50%; /* Circular knob */
+    left: 4px;
+    bottom: 4px;
+    background-color: white; /* Knob color */
+    transition: .4s; /* Smooth transition */
+}
+
+input:checked + .slider {
+    background-color: #007bff; /* Background color for On state */
+}
+
+input:checked + .slider:before {
+    transform: translateX(30px); /* Move knob to the right */
+}
+
+.toggle-label {
+    font-size: 28px; /* Font size for the label */
+}

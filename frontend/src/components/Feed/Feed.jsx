@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const Feed = () => {
     const{collegeName}=useParams();
     const [posts, setPosts] = useState([]);
-
+    const[sortByUpvotes,setSortByUpvotes]=useState(false);
     useEffect(() => {
         const fetchPosts = async () => {
             const url = collegeName 
@@ -32,17 +32,34 @@ const Feed = () => {
         fetchPosts();
     }, [collegeName]);
     
+    const toggleSortUpvotes=()=>{
+        setSortByUpvotes(!sortByUpvotes);
+    }
 
+    const sortedPosts=[...posts].sort((a,b)=>{
+        if(sortByUpvotes)
+            {
+            return b.upvotes.length-a.upvotes.length;
+        }
+        return 0;
+    });
 
-    
-
-      
-    return (
-<div className="feed-container">
-            {posts.map((post) => (
-                <Post key={post._id} post={post} />
-            ))}
-        </div>  
+    return (<div className="feed-container">
+        <div className="toggle-container">
+            <span className="toggle-label">Sort by Upvotes</span>
+            <label className="toggle-switch">
+                <input
+                    type="checkbox"
+                    checked={sortByUpvotes}
+                    onChange={toggleSortUpvotes}
+                />
+                <span className="slider"></span>
+            </label>
+        </div>
+        {sortedPosts.map((post) => (
+            <Post key={post._id} post={post} />
+        ))}
+    </div>
     );
 };
 

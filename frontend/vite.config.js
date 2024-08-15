@@ -8,5 +8,10 @@ export default defineConfig({
     alias:{
       'react-toastify':require.resolve('react-toastify')
     }
-  }
+  },
+  build: {
+    rollupOptions: {
+      external: ['react-toastify'],
+    },
+  },
 });

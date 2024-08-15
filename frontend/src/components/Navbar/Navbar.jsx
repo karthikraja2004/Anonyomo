@@ -5,6 +5,7 @@ import LogoutButton from '../Logout/LogoutButton';
 import { FaPen } from 'react-icons/fa';
 import './Navbar.css';
 import axios from 'axios';
+import API_BASE_URL from '../../config';
 
 
 const Navbar =() => {

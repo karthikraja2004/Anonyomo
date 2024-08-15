@@ -1,11 +1,12 @@
 const express = require('express')
 const app = express()
-const PORT = 5500
+require('dotenv').config()
+const PORT = process.env.PORT
 
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
 
-require('dotenv').config()
+
 
 const corsOptions = {
     origin: 'http://localhost:5173', // Specify your frontend origin here

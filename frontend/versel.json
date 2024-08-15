@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "https://anonyomo.vercel.app/api/$1"
+    }
+  ]
+}

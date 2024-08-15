@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './LogoutButton.css';
+import API_BASE_URL from '../../config';
 
 const LogoutButton = () => {
     const navigate = useNavigate();

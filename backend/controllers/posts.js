@@ -8,7 +8,8 @@ const getAllPosts = async (req, res) => {
 
     try {
         // Since we referenced the posts with user id, we can modify the author with username
-        const posts = await postModel.find({}).populate('author', 'username').sort({ createdAt: -1 })
+        // modified to include management
+        const posts = await postModel.find({}).populate('author', 'username isOrganization collegeName').sort({ createdAt: -1 });
         console.log("posts : " + posts.length)
         res.status(200).json(posts)
     }
@@ -128,7 +129,16 @@ const getByPostId = async (req, res) => {
     }
 
     try {
-        const fetchedPost = await postModel.findById(postId).populate('author', 'username').populate('comments.commentor', 'username');
+        const fetchedPost = await postModel.findById(postId)
+            .populate({
+                path: 'author',
+                select: 'username isOrganization collegeName'
+            })
+            .populate({
+                path: 'comments.commentor',
+                select: 'username isOrganization collegeName'
+            });
+
         if (fetchedPost) {
             res.status(200).json(fetchedPost);
             console.log(fetchedPost);

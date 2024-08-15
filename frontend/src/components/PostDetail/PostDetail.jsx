@@ -84,7 +84,14 @@ const PostDetail = () => {
                         <div key={c._id} className="comment-card">
                             <div className="comment-content">
                                 <p className="comment-text">{c.text}</p>
-                                <p className="commentor-username"><strong>{c.commentor.username}</strong></p>
+                                <p className="commentor-username"><strong>{c.commentor.username}</strong>
+                                {c.commentor.isOrganization && (
+                                    <>
+                                    <span className="org-tag">ORG</span>
+                                    <span className="college-name"> ({c.commentor.collegeName})</span>
+                                    </>
+                                )}
+                                </p>
                                 <p className="comment-date">{formatDate(c.createdAt)}</p>
                             </div>
                             <button className="delete-comment-button" onClick={() => handleCommentDelete(c._id)}>

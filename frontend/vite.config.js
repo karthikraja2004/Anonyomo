@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   resolve:{
     alias:{
-      'react-toastify':require.resolve('react-toastify')
+      'react-toastify':'react-toastify',
     }
   },
   build: {

@@ -60,5 +60,5 @@ input:checked + .slider:before {
 }
 
 .toggle-label {
-    font-size: 28px; /* Font size for the label */
+    font-size: 26px; /* Font size for the label */
 }

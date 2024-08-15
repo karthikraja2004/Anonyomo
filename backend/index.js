@@ -7,10 +7,22 @@ const cors = require('cors')
 
 require('dotenv').config()
 
+const allowedOrigins = [
+    'https://anonyomo.vercel.app',
+    'https://anonyomo-c1in-qsoo86mei-karthikraja2004s-projects.vercel.app'
+];
+
 const corsOptions = {
-    origin: 'https://anonyomo-c1in-c90xusshy-karthikraja2004s-projects.vercel.app/', // Specify your frontend origin here
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true,
 };
+
 app.use(express.json())
 app.use(cookieParser())
 app.use(cors(corsOptions));

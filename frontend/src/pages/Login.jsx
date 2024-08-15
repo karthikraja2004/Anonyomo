@@ -25,7 +25,7 @@ const Login = () => {
     try {
       const config = { headers: { 'Content-Type': 'application/json' }, withCredentials: true };
       const body = JSON.stringify({ email, password });
-      const res = await axios.post("https://anonyomo.vercel.app/api/login", body, config);
+      const res = await axios.post(`${API_BASE_URL}/api/login`, body, config);
 
       toast.success('User logged in successfully!');
 

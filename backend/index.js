@@ -8,7 +8,7 @@ const cors = require('cors')
 require('dotenv').config()
 
 const corsOptions = {
-    origin: 'https://anonyomo.vercel.app', // Specify your frontend origin here
+    origin: 'https://anonyomo-c1in-c90xusshy-karthikraja2004s-projects.vercel.app/', // Specify your frontend origin here
     credentials: true,
 };
 app.use(express.json())

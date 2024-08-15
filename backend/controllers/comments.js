@@ -39,7 +39,7 @@ const addComment = async (req, res) => {
         await fetchedPost.save()
 
         // comment bug fix, username not displaying when adding comments
-        const populatedPost = await postModel.findById(postId).populate('comments.commentor', 'username');
+        const populatedPost = await postModel.findById(postId).populate({ path: 'comments.commentor', select: 'username isOrganization collegeName' });
         const populatedComment = populatedPost.comments[populatedPost.comments.length - 1];
 
 

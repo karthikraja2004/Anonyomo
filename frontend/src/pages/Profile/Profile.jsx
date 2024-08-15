@@ -34,6 +34,7 @@ const Profile = () => {
     if (loading) {
         return <div>Loading...</div>;
     }
+    const {username, isOrganization} = profileData
 
     return (
         <div className="profile-container">
@@ -49,7 +50,7 @@ const Profile = () => {
                 <div className="profile-info">
                     <p><strong>Name:</strong> {profileData.name}</p>
                     <p><strong>Email:</strong> {profileData.email}</p>
-                    <p><strong>Username:</strong> {profileData.username}</p>
+                    <p><strong>Username:</strong> {profileData.username} {(isOrganization && (<span className='org-tag'>ORG</span>))}</p>
                     <p><strong>Mobile:</strong> {profileData.mobile}</p>
                     <p><strong>College Name:</strong> {profileData.collegeName}</p>
                     <p><strong>Date of Birth:</strong> {profileData.dob}</p>

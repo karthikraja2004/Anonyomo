@@ -16,7 +16,6 @@ const allowedOrigins = [
     'https://anonyomo.vercel.app',
     'https://anonyomo-c1in.vercel.app'
 ];
-
 const corsOptions = {
     origin: function (origin, callback) {
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -25,11 +24,16 @@ const corsOptions = {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    credentials: true,  // Allow cookies and credentials to be sent
+    credentials: true,  // Allow credentials (cookies, authorization headers, etc.)
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Allow these headers
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
+
 // Handle preflight requests
+app.options('*', cors(corsOptions));
 
 
 const authenticationRoute = require('./routes/authentication')

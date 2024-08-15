@@ -29,8 +29,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
-app.options('*', cors(corsOptions));  // Handle preflight requests
+// Handle preflight requests
 
 
 const authenticationRoute = require('./routes/authentication')

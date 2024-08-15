@@ -5,6 +5,7 @@ import Post from '../Post/Post';
 import { useParams } from 'react-router-dom';
 import {toast}from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import API_BASE_URL from '../../config';
 const Feed = () => {
     const{collegeName}=useParams();
     const [posts, setPosts] = useState([]);

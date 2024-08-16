@@ -45,3 +45,19 @@
   justify-content: flex-start;
   align-items: center;
 }
+
+.org-tag {
+  background-color: #ffcc00;
+  color: #333;
+  padding: 2px 6px;
+  margin-left: 8px;
+  border-radius: 3px;
+  font-size: 0.85em;
+  font-weight: bold;
+}
+
+.college-name {
+  font-size: 0.9em;
+  color: #666;
+  margin-left: 5px;
+}

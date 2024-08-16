@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
     posts: {
         type: Array,
         default: []
+    },
+    isOrganization: {
+        type: Boolean,
+        default: false
     }
 
 },

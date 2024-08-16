@@ -13,7 +13,6 @@ app.use(express.json())
 app.use(cookieParser())
 
 const allowedOrigins = [
-    'https://anonyomo.vercel.app',
     'https://anonyomo-c1in.vercel.app'
 ];
 const corsOptions = {
